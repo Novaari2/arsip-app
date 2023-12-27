@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,14 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
         Route::get('edit/{id}', [PejabatLelangController::class, 'edit'])->name('pejabat_lelang.edit');
         Route::post('update/{id}', [PejabatLelangController::class, 'update'])->name('pejabat_lelang.update');
         Route::delete('destroy', [PejabatLelangController::class, 'destroy'])->name('pejabat_lelang.destroy');
+    });
+
+    Route::group(['namespace' => 'kategori_pemohon', 'prefix' => 'kategori_pemohon'], function(){
+        Route::get('/', [KategoriPemohonController::class, 'index'])->name('kategori_pemohon.index');
+        Route::get('/create', [KategoriPemohonController::class, 'create'])->name('kategori_pemohon.create');
+        Route::post('/store', [KategoriPemohonController::class, 'store'])->name('kategori_pemohon.store');
+        Route::get('edit/{id}', [KategoriPemohonController::class, 'edit'])->name('kategori_pemohon.edit');
+        Route::post('update/{id}', [KategoriPemohonController::class, 'update'])->name('kategori_pemohon.update');
+        Route::delete('destroy', [KategoriPemohonController::class, 'destroy'])->name('kategori_pemohon.destroy');
     });
 });
