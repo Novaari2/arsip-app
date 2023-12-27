@@ -40,8 +40,8 @@
         </a>
       </li>
 
-      <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
-        <a href="#" class="nav-link">
+      <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
+        <a href="{{ route('jenis_lelang.index') }}" class="nav-link">
           <span class="menu-title">Jenis Lelang</span>
           <i class="mdi mdi-account-plus menu-icon"></i>
         </a>

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class JenisLelang extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['nama'];
 }

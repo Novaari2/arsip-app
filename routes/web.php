@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
@@ -44,5 +45,14 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
         Route::get('edit/{id}', [KategoriPemohonController::class, 'edit'])->name('kategori_pemohon.edit');
         Route::post('update/{id}', [KategoriPemohonController::class, 'update'])->name('kategori_pemohon.update');
         Route::delete('destroy', [KategoriPemohonController::class, 'destroy'])->name('kategori_pemohon.destroy');
+    });
+
+    Route::group(['namespace' => 'jenis_lelang', 'prefix' => 'jenis_lelang'], function(){
+        Route::get('/', [JenisLelangController::class, 'index'])->name('jenis_lelang.index');
+        Route::get('/create', [JenisLelangController::class, 'create'])->name('jenis_lelang.create');
+        Route::post('/store', [JenisLelangController::class, 'store'])->name('jenis_lelang.store');
+        Route::get('edit/{id}', [JenisLelangController::class, 'edit'])->name('jenis_lelang.edit');
+        Route::post('update/{id}', [JenisLelangController::class, 'update'])->name('jenis_lelang.update');
+        Route::delete('destroy', [JenisLelangController::class, 'destroy'])->name('jenis_lelang.destroy');
     });
 });
