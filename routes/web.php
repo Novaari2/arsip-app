@@ -6,6 +6,7 @@ use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
 use App\Http\Controllers\RakGudangController;
+use App\Http\Controllers\RakGudangDetailController;
 use App\Http\Controllers\RisalahLelangController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,4 +73,15 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
         Route::post('update/{id}', [RakGudangController::class, 'update'])->name('rak_gudang.update');
         Route::delete('destroy', [RakGudangController::class, 'destroy'])->name('rak_gudang.destroy');
     });
+
+    Route::group(['namespace' => 'rak_detail', 'prefix' => 'rak_detail'], function(){
+        Route::get('/', [RakGudangDetailController::class, 'index'])->name('rak_detail.index');
+        Route::get('/create', [RakGudangDetailController::class, 'create'])->name('rak_detail.create');
+        Route::post('/store', [RakGudangDetailController::class, 'store'])->name('rak_detail.store');
+        Route::get('edit/{id}', [RakGudangDetailController::class, 'edit'])->name('rak_detail.edit');
+        Route::post('update/{id}', [RakGudangDetailController::class, 'update'])->name('rak_detail.update');
+        Route::delete('destroy', [RakGudangDetailController::class, 'destroy'])->name('rak_detail.destroy');
+    });
+
+
 });
