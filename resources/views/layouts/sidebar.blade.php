@@ -61,6 +61,13 @@
         </a>
       </li>
 
+      <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
+        <a href="{{ route('rak_detail.index') }}" class="nav-link">
+          <span class="menu-title">Nomor Rak</span>
+          <i class="mdi mdi-account-plus menu-icon"></i>
+        </a>
+      </li>
+
       <li class="nav-item">
         <a href="#laporan" data-bs-toggle="collapse" aria-expanded="true" aria-controls="forms" class="nav-link">
             <span class="menu-title">Laporan</span>
