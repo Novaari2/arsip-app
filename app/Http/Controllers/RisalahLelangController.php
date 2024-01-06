@@ -8,13 +8,40 @@ use App\Models\PejabatLelang;
 use App\Models\RakGudang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Throwable;
+use Yajra\DataTables\Facades\DataTables;
 
 class RisalahLelangController extends Controller
 {
 
     public function index()
     {
+        if(request()->ajax()){
+            $data = RisalahLelang::query();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('risalah', function($row){
+                return $row->no_register;
+            })
+            ->addColumn('tanggal', function($row){
+                return strtotime($row->tgl_register) ? date('d-m-Y', strtotime($row->tgl_register)) : '';
+            })
+            ->addColumn('pemohon', function($row){
+                return $row->nama_pemohon;
+            })
+            ->addColumn('pejabat', function($row){
+                $pejabat = PejabatLelang::where('id', $row->pejabat_lelang_id)->first();
+                return $pejabat ? $pejabat->nama : '';
+            })
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning-material btn-sm"><i class="mdi mdi-lead-pencil"></i></a>';
+                // $btn .= '<button class="delete-lelang btn btn-danger-material btn-sm ml-1 disabled" data-id=' . Crypt::encryptString($row->id) . ' data-name=' . $row->title . '><i class="mdi mdi-delete"></i></button>';
+                return $btn;
+            })
+            ->rawColumns(['risalah','tanggal','pemohon','pejabat','action'])
+            ->make(true);
+        }
         return view('content-dashboard.risalah_lelang.index');
     }
 
@@ -29,7 +56,6 @@ class RisalahLelangController extends Controller
 
     public function create(Request $request)
     {
-        @dd($request->all());
        try{
             $data = RisalahLelang::create([
                 'pejabat_lelang_id' => $request->nama_pejabat_lelang,

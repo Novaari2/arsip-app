@@ -42,7 +42,7 @@
                             </button>
                         </div>
                     @endif
-                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-section">
                             <div class="form-group">
@@ -190,7 +190,14 @@
 
                             <div class="form-group">
                                 <label for="">Status Lelang <sup class="sup-required">*</sup></label>
-                                <input type="text" id="status_lelang" name="status_lelang" class="form-control" value="{{ old('status_lelang') }}">
+                                <select name="status_lelang" id="status_lelang" class="form-control">
+                                    <option value="">Pilih Status Lelang</option>
+                                    <option value="1">Laku</option>
+                                    <option value="2">TAP</option>
+                                    <option value="3">Ditahan</option>
+                                    <option value="4">Batal</option>
+                                    <option value="5">Batal Karena Pelunasan</option>
+                                </select>
                                 @if($errors->has('status_lelang'))
                                     <span class="text-danger custom-error-size">{{ $errors->first('status_lelang') }}</span>
                                 @endif
