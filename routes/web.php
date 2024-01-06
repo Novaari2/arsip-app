@@ -5,6 +5,8 @@ use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
+use App\Http\Controllers\RakGudangController;
+use App\Http\Controllers\RisalahLelangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,5 +56,19 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
         Route::get('edit/{id}', [JenisLelangController::class, 'edit'])->name('jenis_lelang.edit');
         Route::post('update/{id}', [JenisLelangController::class, 'update'])->name('jenis_lelang.update');
         Route::delete('destroy', [JenisLelangController::class, 'destroy'])->name('jenis_lelang.destroy');
+    });
+
+    Route::group(['namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang'], function(){
+        Route::get('/add', [RisalahLelangController::class, 'add'])->name('risalah_lelang.add');
+        Route::post('/create', [RisalahLelangController::class, 'create'])->name('risalah_lelang.create');
+    });
+
+    Route::group(['namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){
+        Route::get('/', [RakGudangController::class, 'index'])->name('rak_gudang.index');
+        Route::get('/create', [RakGudangController::class, 'create'])->name('rak_gudang.create');
+        Route::post('/store', [RakGudangController::class, 'store'])->name('rak_gudang.store');
+        Route::get('edit/{id}', [RakGudangController::class, 'edit'])->name('rak_gudang.edit');
+        Route::post('update/{id}', [RakGudangController::class, 'update'])->name('rak_gudang.update');
+        Route::delete('destroy', [RakGudangController::class, 'destroy'])->name('rak_gudang.destroy');
     });
 });
