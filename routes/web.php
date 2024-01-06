@@ -5,6 +5,7 @@ use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
+use App\Http\Controllers\RisalahLelangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,5 +55,10 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
         Route::get('edit/{id}', [JenisLelangController::class, 'edit'])->name('jenis_lelang.edit');
         Route::post('update/{id}', [JenisLelangController::class, 'update'])->name('jenis_lelang.update');
         Route::delete('destroy', [JenisLelangController::class, 'destroy'])->name('jenis_lelang.destroy');
+    });
+
+    Route::group(['namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang'], function(){
+        Route::get('/add', [RisalahLelangController::class, 'add'])->name('risalah_lelang.add');
+        Route::post('/create', [RisalahLelangController::class, 'create'])->name('risalah_lelang.create');
     });
 });

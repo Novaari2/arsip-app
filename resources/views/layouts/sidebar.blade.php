@@ -48,7 +48,7 @@
       </li>
 
       <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
-        <a href="#" class="nav-link">
+        <a href="{{ route('risalah_lelang.add') }}" class="nav-link">
           <span class="menu-title">Risalah Lelang</span>
           <i class="mdi mdi-account-plus menu-icon"></i>
         </a>
