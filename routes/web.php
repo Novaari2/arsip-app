@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth','prefix' => 'administrator','namespace' => 
     });
 
     Route::group(['namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang'], function(){
+        Route::get('/', [RisalahLelangController::class, 'index'])->name('risalah_lelang.index');
         Route::get('/add', [RisalahLelangController::class, 'add'])->name('risalah_lelang.add');
         Route::post('/create', [RisalahLelangController::class, 'create'])->name('risalah_lelang.create');
     });
