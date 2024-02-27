@@ -46,6 +46,22 @@
                         @csrf
                         <div class="form-section">
                             <div class="form-group">
+                                <label for="">No Risalah Lelang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="no_risalah_lelang" name="no_risalah_lelang" class="form-control" value="{{ old('no_risalah_lelang') }}">
+                                @if($errors->has('no_risalah_lelang'))
+                                    <span class="text-danger custom-error-size">{{ $errors->first('no_risalah_lelang') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Tgl Lelang <sup class="sup-required">*</sup></label>
+                                <input type="date" id="tgl_lelang" name="tgl_lelang" class="form-control" value="{{ old('tgl_lelang') }}">
+                                @if($errors->has('tgl_lelang'))
+                                    <span class="text-danger custom-error-size">{{ $errors->first('tgl_lelang') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
                                 <label for="">No Register Lelang <sup class="sup-required">*</sup></label>
                                 <input type="text" id="no_regis" name="no_regis" class="form-control" value="{{ old('no_regis') }}">
                                 @if($errors->has('no_regis'))
@@ -165,22 +181,6 @@
 
                         <div class="form-section">
                             <div class="form-group">
-                                <label for="">No Risalah Lelang <sup class="sup-required">*</sup></label>
-                                <input type="text" id="no_risalah_lelang" name="no_risalah_lelang" class="form-control" value="{{ old('no_risalah_lelang') }}">
-                                @if($errors->has('no_risalah_lelang'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('no_risalah_lelang') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Tgl Lelang <sup class="sup-required">*</sup></label>
-                                <input type="date" id="tgl_lelang" name="tgl_lelang" class="form-control" value="{{ old('tgl_lelang') }}">
-                                @if($errors->has('tgl_lelang'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('tgl_lelang') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
                                 <label for="">No Surat Tugas Lelang <sup class="sup-required">*</sup></label>
                                 <input type="text" id="st_lelang" name="st_lelang" class="form-control" value="{{ old('status_lelang') }}">
                                 @if($errors->has('status_lelang'))
@@ -258,10 +258,14 @@
 
                             <div class="form-group">
                                 <label for="">Jenis Penawaran <sup class="sup-required">*</sup></label>
-                                <input type="text" id="jenis_penawaran" name="jenis_penawaran" class="form-control" value="{{ old('jenis_penawaran') }}">
-                                @if($errors->has('jenis_penawaran'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('jenis_penawaran') }}</span>
-                                @endif
+                                <div>
+                                    <select name="jenis_penawaran" class="form-control" id="jenis_penawaran">
+                                        <option value="">Pilih Jenis Penawaran</option>
+                                        @foreach($jenis_penawaran as $key => $penawaran)
+                                            <option value="{{ $key }}">{{ $penawaran }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group">

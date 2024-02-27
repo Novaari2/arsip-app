@@ -45,13 +45,27 @@ class RisalahLelangController extends Controller
         return view('content-dashboard.risalah_lelang.index');
     }
 
+    private function jenisPenawaran(){
+        $penawaran = [
+            '0' => 'Internet Open Bidding',
+            '1' => 'Internet Closed Bidding',
+            '2' => 'Kehadiran tertulis',
+            '3' => 'Kehadiran lisan',
+            '4' => 'E-konvensional',
+            '5' => 'Tromol pos',
+        ];
+
+        return $penawaran;
+    }
+
     public function add()
     {
+        $jenis_penawaran = $this->jenisPenawaran();
         $jenis_lelang = JenisLelang::all();
         $kategori_pemohon = KategoriPemohon::all();
         $pejabat_lelang = PejabatLelang::all();
         $gudang = RakGudang::all();
-        return view('content-dashboard.risalah_lelang.add', compact('jenis_lelang', 'pejabat_lelang', 'kategori_pemohon', 'gudang'));
+        return view('content-dashboard.risalah_lelang.add', compact('jenis_lelang', 'pejabat_lelang', 'kategori_pemohon', 'gudang', 'jenis_penawaran'));
     }
 
     public function create(Request $request)
