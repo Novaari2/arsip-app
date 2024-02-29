@@ -24,8 +24,8 @@ class CreateBarangsTable extends Migration
             $table->text('alamat_pembeli');
             $table->string('no_ktp');
             $table->integer('pokok_lelang');
-            $table->integer('bea_penjual');
-            $table->integer('bea_pembeli');
+            $table->string('bea_penjual');
+            $table->string('bea_pembeli');
             $table->softDeletes();
             $table->timestamps();
         });
