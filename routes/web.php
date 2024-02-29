@@ -61,10 +61,10 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [JenisLelangController::class, 'destroy'])->name('jenis_lelang.destroy');
     });
 
-    Route::group(['middleware' => ['can:risalah_lelang'], 'namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang'], function(){
-        Route::get('/', [RisalahLelangController::class, 'index'])->name('risalah_lelang.index');
-        Route::get('/add', [RisalahLelangController::class, 'add'])->name('risalah_lelang.add');
-        Route::post('/create', [RisalahLelangController::class, 'create'])->name('risalah_lelang.create');
+    Route::group(['middleware' => ['can:risalah_lelang'], 'namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang', 'as' => 'risalah_lelang.'], function(){
+        Route::get('/', [RisalahLelangController::class, 'index'])->name('index');
+        Route::get('add', [RisalahLelangController::class, 'add'])->name('add');
+        Route::post('/create', [RisalahLelangController::class, 'create'])->name('create');
     });
 
     Route::group(['middleware' => ['can:rak_gudang'], 'namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){

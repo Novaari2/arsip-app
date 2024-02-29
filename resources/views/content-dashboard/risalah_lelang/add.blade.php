@@ -42,7 +42,7 @@
                             </button>
                         </div>
                     @endif
-                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="POST">
                         @csrf
                         <div class="form-section">
                             <div class="form-group">
@@ -285,22 +285,22 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control" data-id="1">
+                                        <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control" data-id="1">
+                                        <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
                                     </div>
                                 </div>
 
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control" value="{{ old('uang-uang_jaminan') }}" data-id="1">
+                                        <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control" value="{{ old('nilai_limit') }}" data-id="1">
+                                        <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
 
                                     </div>
                                 </div>
@@ -308,12 +308,12 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control" value="{{ old('nama_pembeli') }}" data-id="1">
+                                        <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control" value="{{ old('alamat_pembeli') }}" data-id="1">
+                                        <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
 
                                     </div>
                                 </div>
@@ -321,12 +321,12 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control" value="{{ old('no_ktp') }}" data-id="1">
+                                        <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control" value="{{ old('harga_lelang') }}" data-id="1">
+                                        <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
 
                                     </div>
                                 </div>
@@ -334,15 +334,12 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control" value="{{ old('bea_penjual') }}" data-id="1">
+                                        <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control" value="{{ old('bea_pembeli') }}" data-id="1">
-                                        @if($errors->has('bea_pembeli'))
-                                            <span class="text-danger custom-error-size">{{ $errors->first('bea_pembeli') }}</span>
-                                        @endif
+                                        <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
                                     </div>
                                 </div>
                             </div>
@@ -496,6 +493,7 @@
             bea_penjual: null,
             bea_pembeli: null
         }
+        console.log(tmpSocialMedia);
         tambahBarang.push(tmpSocialMedia);
         $('.row-tambah-barang').html(rowSocialMedia(tambahBarang))
     })
@@ -530,55 +528,55 @@
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="no_lot_barang_${index+1}" name="no_lot_barang[]" class="form-control" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${index+1}">
+                                    <input type="text" id="no_lot_barang_${index+1}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${index+1}">
                                 </div>
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="uraian_barang" name="uraian_barang[]" class="form-control" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${index+1}">
+                                    <input type="text" id="uraian_barang" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${index+1}">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="uang_jaminan_${index+1}" name="uang_jaminan[]" class="form-control" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${index+1}">
+                                    <input type="text" id="uang_jaminan_${index+1}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${index+1}">
                                 </div>
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="nilai_limit" name="nilai_limit[]" class="form-control" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${index+1}">
+                                    <input type="text" id="nilai_limit" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${index+1}">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="nama_pembeli_${index+1}" name="nama_pembeli[]" class="form-control" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${index+1}">
+                                    <input type="text" id="nama_pembeli_${index+1}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${index+1}">
                                 </div>
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="alamat_pembeli" name="alamat_pembeli[]" class="form-control" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${index+1}">
+                                    <input type="text" id="alamat_pembeli" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${index+1}">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="no_ktp_${index+1}" name="no_ktp[]" class="form-control" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${index+1}">
+                                    <input type="text" id="no_ktp_${index+1}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${index+1}">
                                 </div>
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="harga_lelang" name="harga_lelang[]" class="form-control" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${index+1}">
+                                    <input type="text" id="harga_lelang" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${index+1}">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="bea_penjual_${index+1}" name="bea_penjual[]" class="form-control" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${index+1}">
+                                    <input type="text" id="bea_penjual_${index+1}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${index+1}">
                                 </div>
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
                                     <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="bea_pembeli_${index+1}" name="bea_pembeli[]" class="form-control" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${index+1}">
+                                    <input type="text" id="bea_pembeli_${index+1}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${index+1}">
                                     <br>
                                     ${
                                 socialMedia.length > 1 ? ` <button type="button" class="btn btn-sm btn-danger btn-delete-social-media ml-3 shadow" data-id="${index+1}">
@@ -595,27 +593,25 @@
                     <div class="form-group row mt-4">
                         <div class="col-md-6">
                             <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control" data-id="1">
+                            <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
 
                         </div>
                         <div class="col-md-6">
                             <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control" value="{{ old('uraian_barang') }}" data-id="1">
-                            @if($errors->has('uraian_barang'))
-                                <span class="text-danger custom-error-size">{{ $errors->first('uraian_barang') }}</span>
-                            @endif
+                            <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
+
                         </div>
                     </div>
 
                     <div class="form-group row mt-4">
                         <div class="col-md-6">
                             <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control" value="{{ old('uang-uang_jaminan') }}" data-id="1">
+                            <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
 
                         </div>
                         <div class="col-md-6">
                             <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control" value="{{ old('nilai_limit') }}" data-id="1">
+                            <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
 
                         </div>
                     </div>
@@ -623,12 +619,12 @@
                     <div class="form-group row mt-4">
                         <div class="col-md-6">
                             <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control" value="{{ old('nama_pembeli') }}" data-id="1">
+                            <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
 
                         </div>
                         <div class="col-md-6">
                             <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control" value="{{ old('alamat_pembeli') }}" data-id="1">
+                            <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
 
                         </div>
                     </div>
@@ -636,12 +632,12 @@
                     <div class="form-group row mt-4">
                         <div class="col-md-6">
                             <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control" value="{{ old('no_ktp') }}" data-id="1">
+                            <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
 
                         </div>
                         <div class="col-md-6">
                             <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control" value="{{ old('harga_lelang') }}" data-id="1">
+                            <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
 
                         </div>
                     </div>
@@ -649,12 +645,12 @@
                     <div class="form-group row mt-4">
                         <div class="col-md-6">
                             <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control" value="{{ old('bea_penjual') }}" data-id="1">
+                            <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
 
                         </div>
                         <div class="col-md-6">
                             <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control" value="{{ old('bea_pembeli') }}" data-id="1">
+                            <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
 
                         </div>
                     </div>
