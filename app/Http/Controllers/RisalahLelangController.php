@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\JenisLelang;
 use App\Models\KategoriPemohon;
 use App\Models\PejabatLelang;
@@ -9,6 +10,7 @@ use App\Models\RakGudang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -71,47 +73,53 @@ class RisalahLelangController extends Controller
     public function create(Request $request)
     {
        try{
-            $data = RisalahLelang::create([
-                'pejabat_lelang_id' => $request->nama_pejabat_lelang,
-                'kategori_pemohon_id' => $request->kategori_pemohon,
-                'jenis_lelang_id' => $request->jenis_lelang,
-                'rak_gudang_id' => $request->nama_gudang,
-                'no_register'   => $request->no_regis,
-                'tgl_register'  =>  $request->tgl_regis,
-                'no_tiket_permohonan' => $request->no_tiket_pemohon,
-                'nama_entitas_pemohon' => $request->nama_entitas,
-                'nama_pemohon'  => $request->nama_pemohon,
-                'no_permohonan' => $request->no_surat_pemohon,
-                'tgl_permohonan' => $request->tgl_surat_pemohon,
-                'nama_debitur' => $request->nama_debitur,
-                'no_hpkb' => $request->no_hpkb,
-                'tgl_hpkb' => $request->tgl_hpkb,
-                'no_penetapan' => $request->no_penetapan_jadwal,
-                'tgl_penetapan' => $request->tgl_penetapan_jadwal,
-                'tempat_lelang' => $request->tempat_lelang,
-                'no_risalah' => $request->no_risalah_lelang,
-                'tgl_lelang' => $request->tgl_lelang,
-                'no_lot_barang' => $request->no_lot_barang,
-                'st_lelang' => $request->st_lelang,
-                'tgl_surat_tugas'   => $request->tgl_surat_tugas,
-                'nama_penjual' => $request->nama_penjual,
-                'st_penjual' => $request->no_surat_tugas_penjual,
-                'jenis_penawaran' => $request->jenis_penawaran,
-                'uraian_barang' => $request->uraian_barang,
-                'uang_jaminan' => $request->uang_jaminan,
-                'nilai_limit' => $request->nilai_limit,
-                'nama_pembeli' => $request->nama_pembeli,
-                'alamat_pembeli' => $request->alamat_pembeli,
-                'no_ktp' => $request->no_ktp,
-                'pokok_lelang' => $request->harga_lelang,
-                'bea_penjual'   => $request->bea_penjual,
-                'bea_pembeli'   => $request->bea_pembeli,
-                'status_lelang' => $request->status_lelang
-            ]);
+            DB::beginTransaction();
 
-            return redirect()->route('risalah_lelang.add')->with('status','Data Berhasil Ditambahkan');
-       }catch(Throwable $th){
-           return redirect()->route('risalah_lelang.create')->withErrors($th->getMessage() . ' on the line ' . $th->getLine())->withInput();
-       }
+            $risalah = new RisalahLelang;
+            $risalah->pejabat_lelang_id = $request->nama_pejabat_lelang;
+            $risalah->kategori_pemohon_id = $request->kategori_pemohon;
+            $risalah->jenis_lelang_id = $request->jenis_lelang;
+            $risalah->rak_gudang_id = $request->nama_gudang;
+            $risalah->no_register = $request->no_regis;
+            $risalah->tgl_register = $request->tgl_regis;
+            $risalah->no_tiket_permohonan = $request->no_tiket_pemohon;
+            $risalah->nama_entitas_pemohon = $request->nama_entitas;
+            $risalah->nama_pemohon = $request->nama_pemohon;
+            $risalah->no_permohonan = $request->no_surat_pemohon;
+            $risalah->tgl_permohonan = $request->tgl_surat_pemohon;
+            $risalah->nama_debitur = $request->nama_debitur;
+            $risalah->no_hpkb = $request->no_hpkb;
+            $risalah->tgl_hpkb = $request->tgl_hpkb;
+            $risalah->no_penetapan = $request->no_penetapan_jadwal;
+            $risalah->tgl_penetapan = $request->tgl_penetapan_jadwal;
+            $risalah->tempat_lelang = $request->tempat_lelang;
+            $risalah->no_risalah = $request->no_risalah_lelang;
+            $risalah->tgl_lelang = $request->tgl_lelang;
+            $risalah->save();
+            if($risalah){
+                for($i = 0; $i < count($request->no_lot_barang); $i++){
+                    $barang = new Barang;
+                    $barang->risalah_lelang_id = $risalah->id;
+                    $barang->no_lot_barang = $request->no_lot_barang[$i];
+                    $barang->uraian_barang = $request->uraian_barang[$i];
+                    $barang->uang_jaminan = $request->uang_jaminan[$i];
+                    $barang->nilai_limit = $request->nilai_limit[$i];
+                    $barang->nama_pembeli = $request->nama_pembeli[$i];
+					$barang->alamat_pembeli = $request->alamat_pembeli[$i];
+					$barang->no_ktp = $request->no_ktp[$i];
+					$barang->pokok_lelang = $request->harga_lelang[$i];
+					$barang->bea_penjual = $request->bea_penjual[$i];
+					$barang->bea_pembeli = $request->bea_pembeli[$i];
+                    $barang->save();
+                }
+            }
+
+            DB::commit();
+
+           return response()->json(['success' => 'Data Berhasil Disimpan']);
+        }catch(Throwable $th){
+            DB::rollBack();
+           return $th->getMessage();
+        }
     }
 }

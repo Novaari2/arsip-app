@@ -42,7 +42,7 @@
                             </button>
                         </div>
                     @endif
-                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="POST">
                         @csrf
                         <div class="form-section">
                             <div class="form-group">
@@ -94,6 +94,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="">Tgl Surat Pemohon <sup class="sup-required">*</sup></label>
+                                <input type="date" id="tgl_surat_pemohon" name="tgl_surat_pemohon" class="form-control" value="{{ old('tgl_surat_pemohon') }}">
+                                @if($errors->has('tgl_surat_pemohon'))
+                                    <span class="text-danger custom-error-size">{{ $errors->first('tgl_surat_pemohon') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-section">
+
+                            <div class="form-group">
                                 <label for="">Nama Pemohon <sup class="sup-required">*</sup></label>
                                 <input type="text" id="nama_pemohon" name="nama_pemohon" class="form-control" value="{{ old('nama_pemohon') }}">
                                 @if($errors->has('nama_pemohon'))
@@ -120,15 +130,6 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('no_surat_pemohon') }}</span>
                                 @endif
                             </div>
-
-                            <div class="form-group">
-                                <label for="">Tgl Surat Pemohon <sup class="sup-required">*</sup></label>
-                                <input type="date" id="tgl_surat_pemohon" name="tgl_surat_pemohon" class="form-control" value="{{ old('tgl_surat_pemohon') }}">
-                                @if($errors->has('tgl_surat_pemohon'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('tgl_surat_pemohon') }}</span>
-                                @endif
-                            </div>
-
                             <div class="form-group">
                                 <label for="">Nama Debitur <sup class="sup-required">*</sup></label>
                                 <input type="text" id="nama_debitur" name="nama_debitur" class="form-control" value="{{ old('nama_debitur') }}">
@@ -136,8 +137,7 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('nama_debitur') }}</span>
                                 @endif
                             </div>
-                        </div>
-                        <div class="form-section">
+
                             <div class="form-group">
                                 <label for="">No HPKB <sup class="sup-required">*</sup></label>
                                 <input type="text" id="no_hpkb" name="no_hpkb" class="form-control" value="{{ old('no_hpkb') }}">
@@ -153,7 +153,9 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('tgl_hpkb') }}</span>
                                 @endif
                             </div>
+                        </div>
 
+                        <div class="form-section">
                             <div class="form-group">
                                 <label for="">No Penetapan Jadwal Lelang <sup class="sup-required">*</sup></label>
                                 <input type="text" id="no_penetapan_jadwal" name="no_penetapan_jadwal" class="form-control" value="{{ old('no_penetapan_jadwal') }}">
@@ -169,7 +171,6 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('tgl_penetapan_jadwal') }}</span>
                                 @endif
                             </div>
-
                             <div class="form-group">
                                 <label for="">Tempat Lelang <sup class="sup-required">*</sup></label>
                                 <input type="text" id="tempat_lelang" name="tempat_lelang" class="form-control" value="{{ old('tempat_lelang') }}">
@@ -177,9 +178,7 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('tempat_lelang') }}</span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-section">
                             <div class="form-group">
                                 <label for="">No Surat Tugas Lelang <sup class="sup-required">*</sup></label>
                                 <input type="text" id="st_lelang" name="st_lelang" class="form-control" value="{{ old('status_lelang') }}">
@@ -217,7 +216,6 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('nama_pejabat_lelang') }}</span>
                                 @endif
                             </div>
-
                             <div class="form-group">
                                 <label for="">Tanggal Surat Tugas <sup class="sup-required">*</sup></label>
                                 <input type="date" id="tgl_surat_tugas" name="tgl_surat_tugas" class="form-control" value="{{ old('tgl_surat_tugas') }}">
@@ -225,7 +223,9 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('tgl_surat_tugas') }}</span>
                                 @endif
                             </div>
+                        </div>
 
+                        <div class="form-section">
                             <div class="form-group">
                                 <label for="">Nama Penjual <sup class="sup-required">*</sup></label>
                                 <input type="text" id="nama_penjual" name="nama_penjual" class="form-control" value="{{ old('nama_penjual') }}">
@@ -241,9 +241,7 @@
                                     <span class="text-danger custom-error-size">{{ $errors->first('no_surat_tugas_penjual') }}</span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-section">
                             <div class="form-group">
                                 <label for="">Jenis Lelang <sup class="sup-required">*</sup></label>
                                 <div>
@@ -269,88 +267,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                                <input type="text" id="no_lot_barang" name="no_lot_barang" class="form-control" value="{{ old('no_lot_barang') }}">
-                                @if($errors->has('no_lot_barang'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('no_lot_barang') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                                <input type="text" id="uraian_barang" name="uraian_barang" class="form-control" value="{{ old('uraian_barang') }}">
-                                @if($errors->has('uraian_barang'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('uraian_barang') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                                <input type="text" id="uang_jaminan" name="uang_jaminan" class="form-control" value="{{ old('uang-uang_jaminan') }}">
-                                @if($errors->has('uang-uang_jaminan'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('uang_jaminan') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                                <input type="text" id="nilai_limit" name="nilai_limit" class="form-control" value="{{ old('nilai_limit') }}">
-                                @if($errors->has('nilai_limit'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('nilai_limit') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <div class="form-group">
-                                <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                                <input type="text" id="nama_pembeli" name="nama_pembeli" class="form-control" value="{{ old('nama_pembeli') }}">
-                                @if($errors->has('nama_pembeli'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('nama_pembeli') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                                <input type="text" id="alamat_pembeli" name="alamat_pembeli" class="form-control" value="{{ old('alamat_pembeli') }}">
-                                @if($errors->has('alamat_pembeli'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('alamat_pembeli') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                                <input type="text" id="no_ktp" name="no_ktp" class="form-control" value="{{ old('no_ktp') }}">
-                                @if($errors->has('no_ktp'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('no_ktp') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                                <input type="text" id="harga_lelang" name="harga_lelang" class="form-control" value="{{ old('harga_lelang') }}">
-                                @if($errors->has('harga_lelang'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('harga_lelang') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                                <input type="text" id="bea_penjual" name="bea_penjual" class="form-control" value="{{ old('bea_penjual') }}">
-                                @if($errors->has('bea_penjual'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('bea_penjual') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                                <input type="text" id="bea_pembeli" name="bea_pembeli" class="form-control" value="{{ old('bea_pembeli') }}">
-                                @if($errors->has('bea_pembeli'))
-                                    <span class="text-danger custom-error-size">{{ $errors->first('bea_pembeli') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
                                 <label for="">Nama Gudang <sup class="sup-required">*</sup></label>
                                 <div>
                                     <select name="nama_gudang" id="nama_gudang" class="form-control">
@@ -360,6 +276,77 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h5 class="font-weight-bold">Tambah Barang</h5>
+                            <br>
+                            <div class="row-tambah-barang">
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-6">
+                                        <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-6">
+                                        <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-6">
+                                        <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-6">
+                                        <label for="">No. KTP <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-6">
+                                        <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
+                                        <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 w-100">
+                                <button type="button" id="tambah_barang" class="btn bg-green tambah_barang text-white w-100 shadow">
+                                    Tambah Barang
+                                </button>
                             </div>
                         </div>
 
@@ -413,6 +400,264 @@
 
         navigateTo(0);
     })
+</script>
+<script>
+    $(document).ready(function(){
+        let tambahBarang = [
+            {
+                id: 1,
+                no_lot_barang: null,
+                uraian_barang: null,
+                uang_jaminan: null,
+                nilai_limit: null,
+                nama_pembeli: null,
+                alamat_pembeli: null,
+                no_ktp: null,
+                harga_lelang: null,
+                bea_penjual: null,
+                bea_pembeli: null
+            }
+        ];
 
+    // event untuk select option social media
+    $(document).on('input', '.input-no-lot', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].no_lot_barang = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-uraian', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].uraian_barang = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-uang-jaminan', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].uang_jaminan = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-nilai-limit', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].nilai_limit = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-nama-pembeli', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].nama_pembeli = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-alamat-pembeli', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].alamat_pembeli = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-no-ktp', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].no_ktp = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-harga-lelang', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].harga_lelang = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-bea-penjual', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].bea_penjual = valueSocial ?? null
+    })
+
+    // event untuk select option social media
+    $(document).on('input', '.input-bea-pembeli', function(){
+            const valueSocial = $(this).val()
+            tambahBarang[parseInt($(this).data('id')) - 1].bea_pembeli = valueSocial ?? null
+    })
+
+    $(document).on('click','.tambah_barang', function() {
+        let tmpSocialMedia = {
+            id: tambahBarang.length + 1,
+            no_lot_barang: null,
+            uraian_barang: null,
+            uang_jaminan: null,
+            nilai_limit: null,
+            nama_pembeli: null,
+            alamat_pembeli: null,
+            no_ktp: null,
+            harga_lelang: null,
+            bea_penjual: null,
+            bea_pembeli: null
+        }
+        console.log(tmpSocialMedia);
+        tambahBarang.push(tmpSocialMedia);
+        $('.row-tambah-barang').html(rowSocialMedia(tambahBarang))
+    })
+
+    // event delete row social media
+    $(document).on('click','.btn-delete-social-media', function() {
+            tambahBarang.splice(parseInt($(this).data('id')) - 1, 1)
+            if(tambahBarang.length == 0) {
+                let tmpSocialMedia = {
+                    id: tambahBarang.length + 1,
+                    no_lot_barang: null,
+                    uraian_barang: null,
+                    uang_jaminan: null,
+                    nilai_limit: null,
+                    nama_pembeli: null,
+                    alamat_pembeli: null,
+                    no_ktp: null,
+                    harga_lelang: null,
+                    bea_penjual: null,
+                    bea_pembeli: null
+                }
+                tambahBarang.push(tmpSocialMedia)
+            }
+            $('.row-tambah-barang').html(rowSocialMedia(tambahBarang))
+        })
+
+    function rowSocialMedia(socialMedia) {
+            let row = ''
+            if(socialMedia.length > 0) {
+                socialMedia.map((value,index) => {
+                    row += `
+                            <div class="form-group row mt-4">
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="no_lot_barang_${index+1}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${index+1}">
+                                </div>
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="uraian_barang" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${index+1}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-4">
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="uang_jaminan_${index+1}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${index+1}">
+                                </div>
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="nilai_limit" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${index+1}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-4">
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="nama_pembeli_${index+1}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${index+1}">
+                                </div>
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="alamat_pembeli" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${index+1}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-4">
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">No. KTP <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="no_ktp_${index+1}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${index+1}">
+                                </div>
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="harga_lelang" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${index+1}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-4">
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="bea_penjual_${index+1}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${index+1}">
+                                </div>
+                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
+                                    <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
+                                    <input type="text" id="bea_pembeli_${index+1}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${index+1}">
+                                    <br>
+                                    ${
+                                socialMedia.length > 1 ? ` <button type="button" class="btn btn-sm btn-danger btn-delete-social-media ml-3 shadow" data-id="${index+1}">
+                                    Hapus
+                                </button>` : ''
+                            }
+                                </div>
+                            </div>
+
+                    `
+                })
+            }else {
+                row = `
+                    <div class="form-group row mt-4">
+                        <div class="col-md-6">
+                            <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
+                            <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
+                            <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <div class="col-md-6">
+                            <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
+                            <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
+                            <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <div class="col-md-6">
+                            <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
+                            <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
+                            <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <div class="col-md-6">
+                            <label for="">No. KTP <sup class="sup-required">*</sup></label>
+                            <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
+                            <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <div class="col-md-6">
+                            <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
+                            <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
+                            <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
+
+                        </div>
+                    </div>
+                `
+            }
+            return row
+        }
+    })
 </script>
 @endsection
