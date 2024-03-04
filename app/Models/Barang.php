@@ -9,4 +9,8 @@ class Barang extends Model
 {
     use HasFactory;
     protected $table = 'barangs';
+
+    public function risalah_lelang(){
+        return $this->belongsTo("App\Models\RisalahLelang");
+    }
 }

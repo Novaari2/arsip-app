@@ -37,8 +37,9 @@ class RisalahLelangController extends Controller
                 return $pejabat ? $pejabat->nama : '';
             })
             ->addColumn('action', function ($row) {
-                $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning-material btn-sm"><i class="mdi mdi-lead-pencil"></i></a>';
-                // $btn .= '<button class="delete-lelang btn btn-danger-material btn-sm ml-1 disabled" data-id=' . Crypt::encryptString($row->id) . ' data-name=' . $row->title . '><i class="mdi mdi-delete"></i></button>';
+                $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Edit</a>';
+                $btn .= '<a href="' . route('risalah_lelang.detail', Crypt::encryptString($row->id)) . '" class="detail-risalah btn btn-gradient-info btn-sm ml-1"><i class="mdi mdi-eye"></i>Detail</a>';
+                $btn .= '<button class="delete-lelang btn btn-danger btn-sm ml-1 disabled" data-id=' . Crypt::encryptString($row->id) . ' data-name=' . $row->title . '><i class="mdi mdi-delete"></i>Delete</button>';
                 return $btn;
             })
             ->rawColumns(['risalah','tanggal','pemohon','pejabat','action'])
@@ -121,5 +122,50 @@ class RisalahLelangController extends Controller
             DB::rollBack();
            return $th->getMessage();
         }
+    }
+
+    public function detail($id){
+        $id = Crypt::decryptString($id);
+        // dd($id);
+        $risalah = Barang::where('risalah_lelang_id', $id)->get();
+
+        if(request()->ajax()){
+            return DataTables::of($risalah)
+                ->addIndexColumn()
+                ->addColumn('no_lot_barang', function($row){
+                    return $row->no_lot_barang;
+                })
+                ->addColumn('uraian_barang', function($row){
+                    return $row->uraian_barang;
+                })
+                ->addColumn('uang_jaminan', function($row){
+                    return $row->uang_jaminan;
+                })
+                ->addColumn('nilai_limit', function($row){
+                    return $row->nilai_limit;
+                })
+                ->addColumn('nama_pembeli', function($row){
+                    return $row->nama_pembeli;
+                })
+                ->addColumn('alamat_pembeli', function($row){
+                    return $row->alamat_pembeli;
+                })
+                ->addColumn('no_ktp', function($row){
+                    return $row->no_ktp;
+                })
+                ->addColumn('pokok_lelang', function($row){
+                    return $row->pokok_lelang;
+                })
+                ->addColumn('bea_penjual', function($row){
+                    return $row->bea_penjual;
+                })
+                ->addColumn('bea_pembeli', function($row){
+                    return $row->bea_pembeli;
+                })
+                ->rawColumns(['no_lot_barang','uraian_barang','uang_jaminan','nilai_limit','nama_pembeli','alamat_pembeli','no_ktp','pokok_lelang','bea_penjual','bea_pembeli'])
+                ->make(true);
+            }
+
+        return view('content-dashboard.risalah_lelang.detail');
     }
 }

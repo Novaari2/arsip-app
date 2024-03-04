@@ -38,7 +38,7 @@
         <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
             <a href="{{ route('kategori_pemohon.index') }}" class="nav-link">
             <span class="menu-title">Kategori Pemohon</span>
-            <i class="mdi mdi-account-plus menu-icon"></i>
+            <i class="mdi  mdi-code-not-equal menu-icon"></i>
             </a>
         </li>
       @endcan
@@ -47,7 +47,7 @@
         <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
             <a href="{{ route('jenis_lelang.index') }}" class="nav-link">
             <span class="menu-title">Jenis Lelang</span>
-            <i class="mdi mdi-account-plus menu-icon"></i>
+            <i class="mdi mdi-buffer menu-icon"></i>
             </a>
         </li>
       @endcan
@@ -56,7 +56,7 @@
       <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
         <a href="{{ route('risalah_lelang.index') }}" class="nav-link">
           <span class="menu-title">Risalah Lelang</span>
-          <i class="mdi mdi-account-plus menu-icon"></i>
+          <i class="mdi  mdi-book-multiple menu-icon"></i>
         </a>
       </li>
       @endcan
@@ -65,7 +65,7 @@
         <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
             <a href="{{ route('rak_gudang.index') }}" class="nav-link">
             <span class="menu-title">Rak Gudang</span>
-            <i class="mdi mdi-account-plus menu-icon"></i>
+            <i class="mdi mdi-bitbucket menu-icon"></i>
             </a>
         </li>
       @endcan
@@ -74,7 +74,7 @@
         <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
             <a href="{{ route('rak_detail.index') }}" class="nav-link">
             <span class="menu-title">Nomor Rak</span>
-            <i class="mdi mdi-account-plus menu-icon"></i>
+            <i class="mdi mdi-border-all menu-icon"></i>
             </a>
         </li>
       @endcan
@@ -97,7 +97,7 @@
       <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
         <a href="{{ route('user.index') }}" class="nav-link">
           <span class="menu-title">User</span>
-          <i class="mdi mdi-account-plus menu-icon"></i>
+          <i class="mdi mdi-account menu-icon"></i>
         </a>
       </li>
       @endcan
@@ -106,7 +106,7 @@
         <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
             <a href="{{ route('role.index') }}" class="nav-link">
             <span class="menu-title">Hak Akses</span>
-            <i class="mdi mdi-account-plus menu-icon"></i>
+            <i class="mdi mdi-arrow-right menu-icon"></i>
             </a>
         </li>
       @endcan

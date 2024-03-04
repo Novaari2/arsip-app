@@ -47,4 +47,8 @@ class RisalahLelang extends Model
     //     'bea_pembeli',
     //     'status_lelang'
     // ];
+
+    public function barang(){
+        return $this->hasMany("App\Models\Barang");
+    }
 }
