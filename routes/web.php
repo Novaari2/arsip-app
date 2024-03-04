@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
+use App\Http\Controllers\LaporanGudangController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
 use App\Http\Controllers\RakGudangController;
@@ -106,6 +107,10 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [RoleController::class, 'update'])->name('update');
         Route::delete('/delete', [RoleController::class, 'delete'])->name('delete');
+    });
+
+    Route::group(['namespace' => 'laporan_gudang', 'prefix' => 'laporan_gudang', 'as' => 'laporan_gudang.'], function () {
+        Route::get('/', [LaporanGudangController::class, 'index'])->name('index');
     });
 
 });

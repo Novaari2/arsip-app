@@ -79,19 +79,19 @@
         </li>
       @endcan
 
-      {{-- <li class="nav-item">
-        <a href="#laporan" data-bs-toggle="collapse" aria-expanded="true" aria-controls="forms" class="nav-link">
+      <li class="nav-item {{ Request::route()->getPrefix() === 'admin/laporan' ? 'active' : '' }}">
+        <a href="#laporan" aria-expanded="false" aria-controls="forms" data-toggle="collapse" class="nav-link collapse">
             <span class="menu-title">Laporan</span>
             <i class="menu-arrow"></i>
             <i class="bi bi-collection-play-fill menu-icon"></i>
         </a>
         <div class="collapse" id="laporan" style="">
             <ul class="nav flex-column sub-menu">
-                <li><a class="nav-link" href="#">Laporan Lelang</li>
-                <li><a class="nav-link" href="#">Laporan Risalah Lelang</li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index') }}">Laporan Gudang Lelang</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Laporan Risalah Lelang</a></li>
             </ul>
         </div>
-      </li> --}}
+      </li>
 
       @can('user')
       <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
