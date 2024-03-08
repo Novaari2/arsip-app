@@ -16,4 +16,8 @@ class RakGudang extends Model
     public function rakGudangDetails(){
         return $this->hasMany("App\Models\RakGudangDetail");
     }
+
+    public function risalahLelang(){
+        return $this->hasMany("App\Models\RisalahLelang");
+    }
 }

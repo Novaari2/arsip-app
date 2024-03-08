@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\LaporanGudangExport;
 use App\Models\RakGudang;
+use App\Models\RakGudangDetail;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,19 +17,23 @@ class LaporanGudangController extends Controller
     public function index()
     {
         if(request()->ajax()){
-            $data = RisalahLelang::all();
+            $data = RakGudang::with('risalahLelang')->get();
 
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama_gudang', function($row){
-                $gudang = RakGudang::find($row->rak_gudang_id);
-                return $gudang->nama_gudang;
+                return $row->nama_gudang;
             })
             ->addColumn('no_rak', function($row){
-                return '1';
+                $risalah = $row->risalahLelang->collect();
+               foreach ($risalah as $key => $value) {
+                   $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
+                   return $rak[$key]->no_rak;
+               }
             })
             ->addColumn('jumlah_risalah', function($row){
-                return '1';
+                // ambil jumlah risalah yang ada di gudang n
+                return count($row->risalahLelang);
             })
             ->rawColumns(['nama','no_rak','jumlah_risalah'])
             ->make(true);
