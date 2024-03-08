@@ -18,4 +18,8 @@ class RakGudangDetail extends Model
     {
         return $this->belongsTo("App\Models\RakGudang");
     }
+
+    public function risalahLelang(){
+        return $this->hasMany("App\Models\RisalahLelang");
+    }
 }

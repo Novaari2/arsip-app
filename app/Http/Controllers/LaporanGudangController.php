@@ -25,14 +25,16 @@ class LaporanGudangController extends Controller
                 return $row->nama_gudang;
             })
             ->addColumn('no_rak', function($row){
-                $risalah = $row->risalahLelang->collect();
-               foreach ($risalah as $key => $value) {
-                   $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
-                   return $rak[$key]->no_rak;
-               }
+                $nmr_rak = [];
+                foreach ($row->risalahLelang as $key => $value) {
+                    $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
+                    foreach ($rak as $key => $value) {
+                        array_push($nmr_rak, $value->no_rak);
+                    }
+                }
+                return implode(', ', $nmr_rak);
             })
             ->addColumn('jumlah_risalah', function($row){
-                // ambil jumlah risalah yang ada di gudang n
                 return count($row->risalahLelang);
             })
             ->rawColumns(['nama','no_rak','jumlah_risalah'])
@@ -45,7 +47,7 @@ class LaporanGudangController extends Controller
     {
         $template = "template_laporan_gudang.xlsx";
         $filename = 'Laporan_gudang' . date('Y-m-d') . '.xlsx';
-        $data = ['Gudang A', '1', '10'];
+        $data = RakGudang::with('risalahLelang')->get();
         $this->exportExcelGudang($data, $filename, $template);
     }
 
@@ -82,9 +84,16 @@ class LaporanGudangController extends Controller
         foreach ($data as $item) {
             $row = 3 + $number;
             $sheet->setCellValue('A' . $row, $number)->getStyle('A' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('B' . $row, 'Gudang A');
-            $sheet->setCellValue('C' . $row, 'A1');
-            $sheet->setCellValue('D' . $row, '10');
+            $sheet->setCellValue('B' . $row, $item->nama_gudang);
+            $nmr_rak = [];
+            foreach ($item->risalahLelang as $key => $value) {
+                $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
+                foreach ($rak as $key => $value) {
+                    array_push($nmr_rak, $value->no_rak);
+                }
+            }
+            $sheet->setCellValue('C' . $row, implode(', ', $nmr_rak));
+            $sheet->setCellValue('D' . $row, count($item->risalahLelang));
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);

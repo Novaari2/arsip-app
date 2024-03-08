@@ -18,4 +18,9 @@ class RisalahLelang extends Model
     public function rakGudang(){
         return $this->belongsTo("App\Models\RakGudang");
     }
+
+    public function rakGudangDetail()
+    {
+        return $this->belongsTo("App\Models\RakGudangDetail");
+    }
 }
