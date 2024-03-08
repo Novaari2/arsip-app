@@ -15,34 +15,40 @@ class LaporanRealisasiLelangPejabat extends Controller
     public function index()
     {
         if(request()->ajax()){
-            $data = RisalahLelang::with('barang')->get();
-            // return response()->json($data);
+            $data = PejabatLelang::with('risalahLelang')->get();
 
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama', function($row){
-                $pejabat = PejabatLelang::where('id', $row->pejabat_lelang_id)->first();
-                 dd($pejabat->nama);
+                return $row->nama;
             })
-            ->addColumn('realiasi_pokok_lelang', function($row){
-                $data = RisalahLelang::with('barang')->get();
+            ->addColumn('realisasi_pokok_lelang', function($row){
+                $data = RisalahLelang::with('barang')->where('pejabat_lelang_id', $row->id)->get();
                 $pk_lelang = [];
                 foreach ($data as $key => $value) {
                     foreach ($value->barang as $key => $item) {
                         array_push($pk_lelang, $item->pokok_lelang);
                     }
                 }
-                return array_sum($pk_lelang);
+                $nominal = array_sum($pk_lelang);
+                return number_format($nominal, 0, ',', '.');
             })
-            ->addColumn('realiasi_pnpb_lelang', function($row){
-                $data = RisalahLelang::where('status_lelang', 2)->groupBy('status_lelang')->count();
-                return $data;
+            ->addColumn('realisasi_pnbp_lelang', function($row){
+                $data = RisalahLelang::with('barang')->where('pejabat_lelang_id', $row->id)->get();
+                $pnpb_lelang = [];
+                foreach ($data as $key => $value) {
+                    foreach ($value->barang as $key => $item) {
+                        $jml = $item->bea_penjual + $item->bea_pembeli;
+                        array_push($pnpb_lelang, $jml);
+                    }
+                }
+                $nominal = array_sum($pnpb_lelang);
+                return number_format($nominal, 0, ',', '.');
             })
             ->addColumn('produktivitas_lelang', function($row){
-                $data = RisalahLelang::where('status_lelang', 3)->groupBy('status_lelang')->count();
-                return $data;
+                return '100';
             })
-            ->rawColumns(['nama','realiasi_pokok_lelang','realiasi_pnpb_lelang','produktivitas_lelang'])
+            ->rawColumns(['nama','realisasi_pokok_lelang','realisasi_pnbp_lelang','produktivitas_lelang'])
             ->make(true);
         }
         return view('content-dashboard.laporan-lelang-pejabat.index');
@@ -52,11 +58,11 @@ class LaporanRealisasiLelangPejabat extends Controller
     {
         $template = "template_laporan_per_pejabat_lelang_tahun.xlsx";
         $filename = 'Laporan_pejabat_lelang_tahun' . date('Y-m-d') . '.xlsx';
-        // $data = ['Gudang A', 'Laku', 'Tap', 'Batal'];
-        $this->exportExcelRealisasiPejabat($filename, $template);
+        $data = PejabatLelang::with('risalahLelang')->get();
+        $this->exportExcelRealisasiPejabat($data, $filename, $template);
     }
 
-    public function exportExcelRealisasiPejabat($filename, $template){
+    public function exportExcelRealisasiPejabat($data, $filename, $template){
         // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(public_path('template/' . $template));
@@ -84,16 +90,34 @@ class LaporanRealisasiLelangPejabat extends Controller
                 'size' => '11px'
             ]
         ];
-        $data = ['Gudang A', 'Laku', 'Tap', 'Batal'];
 
         $number = 1;
-        for ($i = 0; $i <= 4; $i++) {
+        foreach ($data as $key => $value) {
             $row = 3 + $number;
             $sheet->setCellValue('A' . $row, $number)->getStyle('A' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('B' . $row, 'Gudang A')->getStyle('B' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('C' . $row, 'Laku')->getStyle('C' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('D' . $row, 'Tap')->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('E' . $row, 'Batal')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('B' . $row, $value->nama)->getStyle('B' . $row)->getAlignment()->setHorizontal('center');
+            $data = RisalahLelang::with('barang')->where('pejabat_lelang_id', $value->id)->get();
+                $pk_lelang = [];
+                foreach ($data as $key => $item) {
+                    foreach ($item->barang as $key => $barang) {
+                        array_push($pk_lelang, $barang->pokok_lelang);
+                    }
+                }
+                $nominal = array_sum($pk_lelang);
+            $sheet->setCellValue('C' . $row, number_format($nominal, 0, ',', '.'))->getStyle('C' . $row)->getAlignment()->setHorizontal('center');
+
+            $data = RisalahLelang::with('barang')->where('pejabat_lelang_id', $value->id)->get();
+                $pnpb_lelang = [];
+                foreach ($data as $key => $item) {
+                    foreach ($item->barang as $key => $pnbp) {
+                        $jml = $pnbp->bea_penjual + $pnbp->bea_pembeli;
+                        array_push($pnpb_lelang, $jml);
+                    }
+                }
+                $nominal = array_sum($pnpb_lelang);
+
+            $sheet->setCellValue('D' . $row, number_format($nominal, 0, ',', '.'))->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('E' . $row, '100')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);
