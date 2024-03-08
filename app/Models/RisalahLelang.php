@@ -14,4 +14,8 @@ class RisalahLelang extends Model
     public function barang(){
         return $this->hasMany("App\Models\Barang");
     }
+
+    public function gudang(){
+        return $this->belongsTo("App\Models\RakGudang");
+    }
 }

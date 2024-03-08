@@ -277,6 +277,15 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="Rak Gudang">Rak Gudang</label>
+                                <div>
+                                    <select name="nomor_rak" id="nomor_rak" class="form-control">
+                                        <option value="">Pilih Rak Gudang</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-section">
                             <h5 class="font-weight-bold">Tambah Barang</h5>
@@ -658,6 +667,35 @@
             }
             return row
         }
+    })
+</script>
+<script>
+    $('document').ready(function(){
+        $('#nomor_rak').hide();
+
+        $('#nama_gudang').on('change', function(){
+            let token = $('meta[name="csrf-token"]').attr('content');
+            let id = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('risalah_lelang.getNomorRak') }}",
+                data: {
+                    id: id,
+                    _token: token
+                },
+                success: function(data){
+                    console.log(data.no_rak);
+                    $('#nomor_rak').empty();
+                    $.each(data, function(i, item){
+                        $('#nomor_rak').append('<option value="' + item.no_rak + '">' + item.no_rak + '</option>');
+                    })
+                    $('#nomor_rak').show();
+                },
+                error: function(xhr){
+                    console.log(xhr.responseText);
+                }
+            })
+        })  
     })
 </script>
 @endsection

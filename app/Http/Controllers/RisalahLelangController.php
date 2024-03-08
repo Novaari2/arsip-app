@@ -7,6 +7,7 @@ use App\Models\JenisLelang;
 use App\Models\KategoriPemohon;
 use App\Models\PejabatLelang;
 use App\Models\RakGudang;
+use App\Models\RakGudangDetail;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -67,8 +68,14 @@ class RisalahLelangController extends Controller
         $jenis_lelang = JenisLelang::all();
         $kategori_pemohon = KategoriPemohon::all();
         $pejabat_lelang = PejabatLelang::all();
-        $gudang = RakGudang::all();
+        $gudang = RakGudang::with('rakGudangDetails')->get();
         return view('content-dashboard.risalah_lelang.add', compact('jenis_lelang', 'pejabat_lelang', 'kategori_pemohon', 'gudang', 'jenis_penawaran'));
+    }
+
+    public function getNomorRak(Request $request){
+        $rak = RakGudangDetail::where('rak_gudang_id', $request->id)->get();
+
+        return response()->json($rak);
     }
 
     public function create(Request $request)
@@ -81,6 +88,7 @@ class RisalahLelangController extends Controller
             $risalah->kategori_pemohon_id = $request->kategori_pemohon;
             $risalah->jenis_lelang_id = $request->jenis_lelang;
             $risalah->rak_gudang_id = $request->nama_gudang;
+            $risalah->rak_gudang_detail_id = $request->nomor_rak;
             $risalah->no_register = $request->no_regis;
             $risalah->tgl_register = $request->tgl_regis;
             $risalah->no_tiket_permohonan = $request->no_tiket_pemohon;

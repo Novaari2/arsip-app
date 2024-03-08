@@ -12,4 +12,8 @@ class RakGudang extends Model
     protected $fillable = [
         'nama_gudang'
     ];
+
+    public function rakGudangDetails(){
+        return $this->hasMany("App\Models\RakGudangDetail");
+    }
 }

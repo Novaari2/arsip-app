@@ -13,4 +13,9 @@ class RakGudangDetail extends Model
         'rak_gudang_id',
         'no_rak'
     ];
+
+    public function rakGudang()
+    {
+        return $this->belongsTo("App\Models\RakGudang");
+    }
 }

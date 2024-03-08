@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::post('update/{id}', [RisalahLelangController::class, 'update'])->name('update');
         Route::delete('destroy', [RisalahLelangController::class, 'destroy'])->name('destroy');
         Route::get('detail/{id}', [RisalahLelangController::class, 'detail'])->name('detail');
+        Route::post('getNomorRak', [RisalahLelangController::class, 'getNomorRak'])->name('getNomorRak');
     });
 
     Route::group(['middleware' => ['can:rak_gudang'], 'namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){
