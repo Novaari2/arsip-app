@@ -9,11 +9,11 @@
         color:red;
     }
 </style>
-@include('layouts.overview',['text' => 'Laporan Gudang','icon' => 'mdi mdi-airplay'])
+@include('layouts.overview',['text' => 'Laporan perjenis/Asal Barang','icon' => 'mdi mdi-airplay'])
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('laporan_gudang.printExcelRisalah') }}" class="btn btn-sm bg-green text-white aadd mb-4"><i class="mdi mdi-file-excel"></i>Excel</a>
+            <a href="{{ route('laporan_gudang.printExcelPerbarang') }}" class="btn btn-sm bg-green text-white aadd mb-4"><i class="mdi mdi-file-excel"></i>Excel</a>
             @include('layouts.message')
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="home-tab">
@@ -21,9 +21,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Gudang</th>
-                                <th>No Rak</th>
-                                <th>Jumlah Risalah</th>
+                                <th>Nama</th>
+                                <th>Laku</th>
+                                <th>TAP</th>
+                                <th>Batal</th>
+                                <th>Realisai Pokok Lelang</th>
+                                <th>Realisai PNBP Lelang</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,19 +44,27 @@
      let table = $('.data-all').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('laporan_gudang.index') }}",
+        ajax: "{{ route('laporan_gudang.index-risalah') }}",
         columns:[
             {
                 data: "DT_RowIndex",
             },
             {
-                data: "nama_gudang",
+                data: "nama",
             },
             {
-                data: "no_rak"
+                data: "laku"
             },
             {
-                data: "jumlah_risalah"
+                data: "tap"
+            },
+            {
+                data: "batal"
+            },{
+                data: 'realisasi_pokok_lelang'
+            },
+            {
+                data: 'realisasi_pnbp_lelang'
             }
         ]
     });

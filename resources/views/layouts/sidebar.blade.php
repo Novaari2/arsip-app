@@ -88,7 +88,11 @@
         <div class="collapse" id="laporan" style="">
             <ul class="nav flex-column sub-menu">
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index') }}">Laporan Gudang Lelang</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Laporan Risalah Lelang</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-risalah') }}">Laporan Risalah Lelang</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-perbarang') }}">Laporan Per Jenis/Asal Barang</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-jumlah') }}">Laporan Jumlah Jenis/Asal Barang</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pejabat') }}">Laporan Lelang Pejabat</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pertahun') }}">Laporan Lelang Per Tahun</a></li>
             </ul>
         </div>
       </li>

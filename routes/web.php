@@ -4,6 +4,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
 use App\Http\Controllers\LaporanGudangController;
+use App\Http\Controllers\LaporanRealisasiLelang;
+use App\Http\Controllers\LaporanRealisasiLelangJumlah;
+use App\Http\Controllers\LaporanRealisasiLelangPejabat;
+use App\Http\Controllers\LaporanRealisasiLelangPerbarang;
+use App\Http\Controllers\LaporanRisalahLelang;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PejabatLelangController;
 use App\Http\Controllers\RakGudangController;
@@ -111,6 +116,17 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
 
     Route::group(['namespace' => 'laporan_gudang', 'prefix' => 'laporan_gudang', 'as' => 'laporan_gudang.'], function () {
         Route::get('/', [LaporanGudangController::class, 'index'])->name('index');
+        Route::get('/risalah', [LaporanRisalahLelang::class, 'index'])->name('index-risalah');
+        Route::get('/realisasi', [LaporanRealisasiLelangPerbarang::class, 'index'])->name('index-perbarang');
+        Route::get('/jumlah', [LaporanRealisasiLelangJumlah::class, 'index'])->name('index-jumlah');
+        Route::get('/pejabat', [LaporanRealisasiLelangPejabat::class, 'index'])->name('index-pejabat');
+        Route::get('/pertahun', [LaporanRealisasiLelang::class, 'index'])->name('index-pertahun');
+        Route::get('/excel', [LaporanGudangController::class, 'laporanGudangToExcel'])->name('printExcel');
+        Route::get('/excel/risalah', [LaporanRisalahLelang::class, 'laporanRisalahLelang'])->name('printExcelRisalah');
+        Route::get('/excel/perbarang', [LaporanRealisasiLelangPerbarang::class, 'laporanRealisasiPerJenis'])->name('printExcelPerbarang');
+        Route::get('/excel/jumlah', [LaporanRealisasiLelangJumlah::class, 'laporanRealisasiJumlahPerjenis'])->name('printExcelJumlah');
+        Route::get('/excel/pejabat', [LaporanRealisasiLelangPejabat::class, 'laporanRealisasiPejabat'])->name('printExcelPejabat');
+        Route::get('/excel/pertahun', [LaporanRealisasiLelang::class, 'laporanRealisasiPerTahun'])->name('printExcelPertahun');
     });
 
 });

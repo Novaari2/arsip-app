@@ -9,7 +9,7 @@
         color:red;
     }
 </style>
-@include('layouts.overview',['text' => 'Laporan Gudang','icon' => 'mdi mdi-airplay'])
+@include('layouts.overview',['text' => 'Laporan Risalah Lelang','icon' => 'mdi mdi-airplay'])
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -21,9 +21,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Gudang</th>
-                                <th>No Rak</th>
-                                <th>Jumlah Risalah</th>
+                                <th>Tahun</th>
+                                <th>RL Laku</th>
+                                <th>RL TAP</th>
+                                <th>Batal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,19 +42,22 @@
      let table = $('.data-all').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('laporan_gudang.index') }}",
+        ajax: "{{ route('laporan_gudang.index-risalah') }}",
         columns:[
             {
                 data: "DT_RowIndex",
             },
             {
-                data: "nama_gudang",
+                data: "tahun",
             },
             {
-                data: "no_rak"
+                data: "rl_laku"
             },
             {
-                data: "jumlah_risalah"
+                data: "rl_tap"
+            },
+            {
+                data: "batal"
             }
         ]
     });

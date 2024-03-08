@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\LaporanGudangExport;
-use App\Models\RakGudang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Yajra\DataTables\Facades\DataTables;
 
-class LaporanGudangController extends Controller
+class LaporanRisalahLelang extends Controller
 {
     public function index()
     {
@@ -20,37 +18,42 @@ class LaporanGudangController extends Controller
 
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('nama_gudang', function($row){
-                $gudang = RakGudang::find($row->rak_gudang_id);
-                return $gudang->nama_gudang;
+            ->addColumn('tahun', function($row){
+                return $row->created_at;
             })
-            ->addColumn('no_rak', function($row){
-                return '1';
+            ->addColumn('rl_laku', function($row){
+                $data = RisalahLelang::where('status_lelang', 1)->groupBy('status_lelang')->count();
+                return $data;
             })
-            ->addColumn('jumlah_risalah', function($row){
-                return '1';
+            ->addColumn('rl_tap', function($row){
+                $data = RisalahLelang::where('status_lelang', 2)->groupBy('status_lelang')->count();
+                return $data;
             })
-            ->rawColumns(['nama','no_rak','jumlah_risalah'])
+            ->addColumn('batal', function($row){
+                $data = RisalahLelang::where('status_lelang', 3)->groupBy('status_lelang')->count();
+                return $data;
+            })
+            ->rawColumns(['tahun','rl_laku','rl_tap','batal'])
             ->make(true);
         }
-        return view('content-dashboard.laporan-gudang.index');
+        return view('content-dashboard.laporan-risalah-lelang.index');
     }
 
-    public function laporanGudangToExcel(Request $request)
+    public function laporanRisalahLelang()
     {
-        $template = "template_laporan_gudang.xlsx";
-        $filename = 'Laporan_gudang' . date('Y-m-d') . '.xlsx';
-        $data = ['Gudang A', '1', '10'];
-        $this->exportExcelGudang($data, $filename, $template);
+        $template = "template_laporan_risalah_lelang.xlsx";
+        $filename = 'Laporan_risalah_lelang' . date('Y-m-d') . '.xlsx';
+        // $data = ['Gudang A', 'Laku', 'Tap', 'Batal'];
+        $this->exportExcelRisalahLelang($filename, $template);
     }
 
-    public function exportExcelGudang($data, $filename, $template){
+    public function exportExcelRisalahLelang($filename, $template){
         // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(public_path('template/' . $template));
         // dd($spreadsheet);
         $sheet = $spreadsheet->setActiveSheetIndex(0);
-        $sheet->setCellValue('A1', 'Laporan Gudang');
+        $sheet->setCellValue('A1', 'Laporan Risalah Lelang');
 
         $setStyle = [
             'borders' => [
@@ -72,24 +75,27 @@ class LaporanGudangController extends Controller
                 'size' => '11px'
             ]
         ];
+        $data = ['Gudang A', 'Laku', 'Tap', 'Batal'];
 
         $number = 1;
-        foreach ($data as $item) {
+        for ($i = 0; $i <= 4; $i++) {
             $row = 3 + $number;
             $sheet->setCellValue('A' . $row, $number)->getStyle('A' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('B' . $row, 'Gudang A');
-            $sheet->setCellValue('C' . $row, 'A1');
-            $sheet->setCellValue('D' . $row, '10');
+            $sheet->setCellValue('B' . $row, 'Gudang A')->getStyle('B' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('C' . $row, 'Laku')->getStyle('C' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('D' . $row, 'Tap')->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('E' . $row, 'Batal')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('C' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('D' . $row)->applyFromArray($setStyle);
+            $sheet->getStyle('E' . $row)->applyFromArray($setStyle);
 
             $number++;
         }
 
-        if(ob_get_contents()) ob_end_clean();
+        // if(ob_get_contents()) ob_end_clean();
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
