@@ -23,4 +23,8 @@ class RisalahLelang extends Model
     {
         return $this->belongsTo("App\Models\RakGudangDetail");
     }
+
+    public function pejabatLelang(){
+        return $this->belongsTo("App\Models\PejabatLelang");
+    }
 }

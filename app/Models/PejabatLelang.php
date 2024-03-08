@@ -16,4 +16,8 @@ class PejabatLelang extends Model
         'nip',
         'sk_pengangkatan',
     ];
+
+    public function risalahLelang(){
+        return $this->hasMany("App\Models\RisalahLelang");
+    }
 }

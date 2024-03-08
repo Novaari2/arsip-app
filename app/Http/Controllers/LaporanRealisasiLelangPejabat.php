@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PejabatLelang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -14,16 +15,24 @@ class LaporanRealisasiLelangPejabat extends Controller
     public function index()
     {
         if(request()->ajax()){
-            $data = RisalahLelang::all();
+            $data = RisalahLelang::with('barang')->get();
+            // return response()->json($data);
 
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama', function($row){
-                return $row->created_at;
+                $pejabat = PejabatLelang::where('id', $row->pejabat_lelang_id)->first();
+                 dd($pejabat->nama);
             })
             ->addColumn('realiasi_pokok_lelang', function($row){
-                $data = RisalahLelang::where('status_lelang', 1)->groupBy('status_lelang')->count();
-                return $data;
+                $data = RisalahLelang::with('barang')->get();
+                $pk_lelang = [];
+                foreach ($data as $key => $value) {
+                    foreach ($value->barang as $key => $item) {
+                        array_push($pk_lelang, $item->pokok_lelang);
+                    }
+                }
+                return array_sum($pk_lelang);
             })
             ->addColumn('realiasi_pnpb_lelang', function($row){
                 $data = RisalahLelang::where('status_lelang', 2)->groupBy('status_lelang')->count();
