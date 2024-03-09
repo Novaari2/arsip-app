@@ -27,8 +27,8 @@ class LaporanRealisasiLelang extends Controller
                 return Carbon::parse($row->first()->created_at)->format('Y');
             })
             ->addColumn('realisasi_pokok_lelang', function($row){
-               $pk_lelang = Barang::select('YEAR(created_at) year', DB::raw('SUM(pokok_lelang) as pokok_lelang'))->where('created_at', '=', date('Y', strtotime($row->first()->created_at)));
-               return number_format($pk_lelang, 0, ',', '.');
+                $pokok_lelang = Barang::sum('pokok_lelang');
+                return number_format($pokok_lelang, 0, ',', '.');
             })
             ->addColumn('realisasi_pnbp_lelang', function($row){
                 $bea_jual = Barang::sum('bea_penjual');
@@ -89,13 +89,22 @@ class LaporanRealisasiLelang extends Controller
 
         $number = 1;
         foreach ($data as $key => $value) {
-            $pk_lelang = Barang::sum('pokok_lelang')->where('created_at', $value->first()->created_at);
+            $pokok_lelang = Barang::sum('pokok_lelang');
+            $bea_jual = Barang::sum('bea_penjual');
+                $bea_beli = Barang::sum('bea_pembeli');
+               $pnbp_lelang = $bea_jual + $bea_beli;
             $row = 3 + $number;
             $sheet->setCellValue('A' . $row, $number)->getStyle('A' . $row)->getAlignment()->setHorizontal('center');
             $sheet->setCellValue('B' . $row, Carbon::parse($value->first()->created_at)->format('Y'))->getStyle('B' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('C' . $row, number_format($pk_lelang, 0, ',', '.'))->getStyle('C' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('D' . $row, 'Tap')->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('E' . $row, 'Batal')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('C' . $row, number_format($pokok_lelang, 0, ',', '.'))->getStyle('C' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('D' . $row, number_format($pnbp_lelang, 0, ',', '.'))->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
+
+
+            $rlLaku = RisalahLelang::where('st_lelang', 1)->where('created_at', $value->first()->created_at)->get();
+                $rlTap = RisalahLelang::where('st_lelang', 2)->where('created_at', $value->first()->created_at)->get();
+                $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
+
+            $sheet->setCellValue('E' . $row, $pro_lelang . '%')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);
