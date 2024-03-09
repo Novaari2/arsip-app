@@ -31,7 +31,7 @@
                     <table class="table table-striped table-bordered table-hover datatables-styles data-all" width="100%" id="table1">
                         <thead>
                             <tr>
-                                <th>Risalah Lelang</th>
+                                <th>Nomor Risalah Lelang</th>
                                 <th>Tanggal Lelang</th>
                                 <th>Pemohon Lelang</th>
                                 <th>Pejabat Lelang</th>
@@ -54,6 +54,7 @@
     let table = $('.data-all').DataTable({
         processing: true,
         serverSide: true,
+        searchable: true,
         ajax: "{{ route('risalah_lelang.index') }}",
         columns:[
             {
@@ -96,7 +97,7 @@
              }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('jenis_lelang.destroy') }}",
+                        url: "{{ route('risalah_lelang.destroy') }}",
                         type: "DELETE",
                         data: {id:id,_token: $('meta[name="csrf-token"]').attr('content')},
                         success: function(data) {

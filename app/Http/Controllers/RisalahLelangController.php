@@ -25,7 +25,7 @@ class RisalahLelangController extends Controller
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('risalah', function($row){
-                return $row->no_register;
+                return $row->no_risalah;
             })
             ->addColumn('tanggal', function($row){
                 return strtotime($row->tgl_register) ? date('d-m-Y', strtotime($row->tgl_register)) : '';
@@ -175,5 +175,24 @@ class RisalahLelangController extends Controller
             }
 
         return view('content-dashboard.risalah_lelang.detail');
+    }
+
+    public function destroy(Request $request) {
+        $id = Crypt::decryptString($request->id);
+        try{
+            DB::beginTransaction();
+            $dataRisalah = RisalahLelang::find($id);
+            if($dataRisalah){
+                $dataRisalah->delete();
+                $dataBarang = Barang::where('risalah_lelang_id', $id)->delete();
+                if($dataBarang){
+                    DB::commit();
+                    return response()->json(['success' => 'Data Berhasil Dihapus']);
+                }
+            }
+        }catch(Throwable $th){
+            DB::rollBack();
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 }

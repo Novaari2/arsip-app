@@ -8,7 +8,7 @@
             @include('layouts.message')
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="home-tab">
-                    <table class="table table-bordered" width="100%" id="table1">
+                    <table class="table table-bordered table-hover datatables-styles data-all" width="100%" id="table1">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -46,7 +46,7 @@
             ajax: `{{ route('risalah_lelang.detail', Request::segment(4, 'default')) }}`,
             columns:[
                 {
-                    data: "DT_RowIndex",    
+                    data: "DT_RowIndex",
                 },
                 {
                     data: "no_lot_barang",
