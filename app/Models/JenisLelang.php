@@ -10,4 +10,9 @@ class JenisLelang extends Model
     use HasFactory;
 
     protected $fillable = ['nama'];
+
+    public function risalahLelang()
+    {
+        return $this->hasMany("App\Models\RisalahLelang");
+    }
 }

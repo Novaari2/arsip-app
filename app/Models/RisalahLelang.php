@@ -12,7 +12,7 @@ class RisalahLelang extends Model
     protected $table = 'buku_registers';
 
     public function barang(){
-        return $this->hasMany("App\Models\Barang");
+        return $this->hasMany("App\Models\Barang", "risalah_lelang_id", "id");
     }
 
     public function rakGudang(){
@@ -26,5 +26,9 @@ class RisalahLelang extends Model
 
     public function pejabatLelang(){
         return $this->belongsTo("App\Models\PejabatLelang");
+    }
+
+    public function jenisLelang(){
+        return $this->belongsTo("App\Models\JenisLelang");
     }
 }
