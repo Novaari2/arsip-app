@@ -16,7 +16,7 @@ class LaporanRealisasiLelangPejabat extends Controller
     {
         if(request()->ajax()){
             $data = PejabatLelang::with('risalahLelang')->get();
-
+            // return response()->json($data);
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama', function($row){
@@ -46,7 +46,10 @@ class LaporanRealisasiLelangPejabat extends Controller
                 return number_format($nominal, 0, ',', '.');
             })
             ->addColumn('produktivitas_lelang', function($row){
-                return '100';
+                $rlLaku = RisalahLelang::where('st_lelang', 1)->where('pejabat_lelang_id', $row->id)->get();
+                $rlTap = RisalahLelang::where('st_lelang', 2)->where('pejabat_lelang_id', $row->id)->get();
+                $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
+                return $pro_lelang . '%';
             })
             ->rawColumns(['nama','realisasi_pokok_lelang','realisasi_pnbp_lelang','produktivitas_lelang'])
             ->make(true);
@@ -117,7 +120,12 @@ class LaporanRealisasiLelangPejabat extends Controller
                 $nominal = array_sum($pnpb_lelang);
 
             $sheet->setCellValue('D' . $row, number_format($nominal, 0, ',', '.'))->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
-            $sheet->setCellValue('E' . $row, '100')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
+
+            $rlLaku = RisalahLelang::where('st_lelang', 1)->where('pejabat_lelang_id', $value->id)->get();
+            $rlTap = RisalahLelang::where('st_lelang', 2)->where('pejabat_lelang_id', $value->id)->get();
+            $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
+
+            $sheet->setCellValue('E' . $row, $pro_lelang . '%')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);
