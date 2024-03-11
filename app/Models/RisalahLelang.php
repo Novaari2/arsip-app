@@ -31,4 +31,8 @@ class RisalahLelang extends Model
     public function jenisLelang(){
         return $this->belongsTo("App\Models\JenisLelang");
     }
+
+    public function kategoriPemohon(){
+        return $this->belongsTo("App\Models\KategoriPemohon");
+    }
 }

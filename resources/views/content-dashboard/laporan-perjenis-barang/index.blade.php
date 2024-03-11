@@ -44,7 +44,7 @@
      let table = $('.data-all').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('laporan_gudang.index-risalah') }}",
+        ajax: "{{ route('laporan_gudang.index-perbarang') }}",
         columns:[
             {
                 data: "DT_RowIndex",

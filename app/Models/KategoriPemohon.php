@@ -10,4 +10,8 @@ class KategoriPemohon extends Model
     use HasFactory;
 
     protected $fillable = ['nama'];
+
+    public function risalahLelang(){
+        return $this->hasmany("App\Models\RisalahLelang");
+    }
 }
