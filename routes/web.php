@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormatKutipanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisLelangController;
 use App\Http\Controllers\KategoriPemohonController;
@@ -128,6 +129,11 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/excel/jumlah', [LaporanRealisasiLelangJumlah::class, 'laporanRealisasiJumlahPerjenis'])->name('printExcelJumlah');
         Route::get('/excel/pejabat', [LaporanRealisasiLelangPejabat::class, 'laporanRealisasiPejabat'])->name('printExcelPejabat');
         Route::get('/excel/pertahun', [LaporanRealisasiLelang::class, 'laporanRealisasiPerTahun'])->name('printExcelPertahun');
+    });
+
+    Route::group(['namespace' => 'format', 'prefix' => 'format', 'as' => 'format.'], function () {
+        Route::get('/', [FormatKutipanController::class, 'index'])->name('index-kutipan');
+        Route::get('/kutipan', [FormatKutipanController::class, 'kutipanPdf'])->name('kutipan');
     });
 
 });
