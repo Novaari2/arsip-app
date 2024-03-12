@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('format.kutipan') }}" class="btn btn-sm bg-green text-white mb-4"><i class="mdi mdi-airplus"></i>Cetak Pdf</a>
+            <a href="{{ route('format.kutipan') }}" class="btn btn-sm bg-green text-white mb-4" target="_blank"><i class="mdi mdi-airplus"></i>Cetak Pdf</a>
             <form action="" class="forms-sample">
                 <div class="form-group">
                     <label for="">Input Kepala Kantor</label>
