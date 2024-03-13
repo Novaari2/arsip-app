@@ -94,6 +94,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pejabat') }}">Laporan Lelang Pejabat</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pertahun') }}">Laporan Lelang Per Tahun</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('format.index') }}">Format Kutipan</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('kuitansi.index') }}">Format Kuitansi</a></li>
             </ul>
         </div>
       </li>

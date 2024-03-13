@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormatKuitansiController;
 use App\Http\Controllers\FormatKutipanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisLelangController;
@@ -135,6 +136,12 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/', [FormatKutipanController::class, 'index'])->name('index');
         Route::get('add/{id}', [FormatKutipanController::class, 'add'])->name('add');
         Route::post('kutipan/{id}', [FormatKutipanController::class, 'kutipanPdf'])->name('kutipan');
+    });
+
+    Route::group(['namespace' => 'kuitansi', 'prefix' => 'kuitansi', 'as' => 'kuitansi.'], function () {
+        Route::get('/', [FormatKuitansiController::class, 'index'])->name('index');
+        Route::get('add/{id}', [FormatKuitansiController::class, 'add'])->name('add');
+        Route::post('kuitansi/{id}', [FormatKuitansiController::class, 'kuitansiPdf'])->name('kuitansi');
     });
 
 });
