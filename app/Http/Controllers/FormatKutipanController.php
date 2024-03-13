@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\JenisLelang;
 use App\Models\PejabatLelang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class FormatKutipanController extends Controller
                     return $pejabat ? $pejabat->nama : null;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Cetak</a>';
+                    $btn = '<a href="' . route('format.add', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Cetak</a>';
                     return $btn;
                 })
                 ->rawColumns(['risalah','lot','pembeli','pejabat','action'])
@@ -44,26 +45,35 @@ class FormatKutipanController extends Controller
         return view('content-dashboard.format-kutipan.index');
     }
 
-    public function add()
+    public function add(Request $request, $id)
     {
-        return view('content-dashboard.format-kutipan.index');
+        $id = Crypt::decryptString($id);
+        // dd($id);
+        return view('content-dashboard.format-kutipan.add');
     }
 
-    public function exportPdf($data, $filename, $template){
-        $content = view('content-dashboard.format-kutipan.' . $template, compact('data'))->render();
+    public function exportPdf($data, $filename, $template, $input){
+        $pejabat = PejabatLelang::where('id', $data->risalahLelang->pejabat_lelang_id)->first();
+        $jenis_lelang = JenisLelang::where('id', $data->risalahLelang->jenis_lelang_id)->first();
+        $content = view('content-dashboard.format-kutipan.' . $template, compact('data', 'input', 'pejabat','jenis_lelang'))->render();
         $html2pdf = new Html2Pdf('P','A4','en');
         if (ob_get_contents()) ob_end_clean();
         $html2pdf->writeHTML($content);
         $html2pdf->output($filename);
     }
 
-    public function kutipanPdf(Request $request)
+    public function kutipanPdf(Request $request, $id)
     {
+        $id = Crypt::decryptString($id);
         $filename = 'Format_kutipan' . date('Y-m-d') . '.pdf';
         $template = 'kutipan';
-        $data = RisalahLelang::where('id',12)->with('pejabatLelang','jenisLelang')->first();
+        // $data = RisalahLelang::where('id',12)->with('pejabatLelang','jenisLelang')->first();
+        $data = Barang::where('id', $id)->with('risalahLelang')->first();
+        // return response()->json($data);
+        $input = $request->all();
+        
         // return response()->json($data);
 
-        $this->exportPdf($data, $filename, $template);
+        $this->exportPdf($data, $filename, $template, $input);
     }
 }

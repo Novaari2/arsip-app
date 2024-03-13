@@ -24,8 +24,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('format.kutipan') }}" class="btn btn-sm bg-green text-white mb-4" target="_blank"><i class="mdi mdi-airplus"></i>Cetak Pdf</a>
-            <form action="" class="forms-sample">
+            {{-- <a href="{{ route('format.kutipan' }}" class="btn btn-sm bg-green text-white mb-4" target="_blank"><i class="mdi mdi-airplus"></i>Cetak Pdf</a> --}}
+            <form action="{{ route('format.kutipan', Request::segment(4, 'default')) }}" method="POST" class="forms-sample">
+                @csrf
                 <div class="form-group">
                     <label for="">Input Kepala Kantor</label>
                     <input type="text" name="kepala_kantor" id="" class="form-control">
@@ -40,8 +41,9 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Masukkan Catatan</label>
-                    <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                    <textarea name="catatan" id="catatan" cols="30" rows="10" class="form-control"></textarea>
                 </div>
+                <button class="btn btn-sm bg-green text-white mb-4" target="_blank"><i class="mdi mdi-airplus"></i>Cetak Pdf</button>
             </form>
         </div>
     </div>

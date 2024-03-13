@@ -133,8 +133,8 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
 
     Route::group(['namespace' => 'format', 'prefix' => 'format', 'as' => 'format.'], function () {
         Route::get('/', [FormatKutipanController::class, 'index'])->name('index');
-        Route::get('add', [FormatKutipanController::class, 'add'])->name('add');
-        Route::get('/kutipan', [FormatKutipanController::class, 'kutipanPdf'])->name('kutipan');
+        Route::get('add/{id}', [FormatKutipanController::class, 'add'])->name('add');
+        Route::post('kutipan/{id}', [FormatKutipanController::class, 'kutipanPdf'])->name('kutipan');
     });
 
 });

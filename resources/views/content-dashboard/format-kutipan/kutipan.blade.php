@@ -8,42 +8,44 @@
         </p>
         <p style="text-align: center; font-size: 12px; margin-top: 10;">
             KUTIPAN RISALAH LELANG<br>
-            NOMOR: {{ $data->no_risalah }}
+            NOMOR: {{ $data->risalahLelang->no_risalah }}
         </p>
     </page_header>
     <page_footer>
     </page_footer>
-    <table style="margin-left: 20pt; margin-top: 150">
+    <table style="margin-left: 20pt; margin-top: 150;">
         <tr>
             <td>Pada Hari ini, Selasa,</td>
         </tr>
         <tr>
             <td>Tanggal</td>
             <td>:</td>
-            <td>(koversi tanggal lelang ke kalimat) ([tanggal_lelang])</td>
+            <td>{{ date('j F Y', strtotime($data->risalahLelang->tgl_lelang)) }}</td>
         </tr>
         <tr>
             <td>Pukul</td>
             <td>:</td>
+            <td>{{ date('h:i', strtotime($data->risalahLelang->created_at)) }}</td>
         </tr>
         <tr>
             <td>Tempat Lelang</td>
             <td>:</td>
+            <td>{{ $data->risalahLelang->tempat_lelang }}</td>
         </tr>
         <tr>
             <td>Oleh saya, pejabat Lelang</td>
             <td>:</td>
-            <td>{{ $data->pejabatLelang->nama }}</td>
+            <td>{{ $pejabat->nama }}</td>
         </tr>
         <tr>
             <td>NIP</td>
             <td>:</td>
-            <td>{{ $data->pejabatLelang->nip }}</td>
+            <td>{{ $pejabat->nip }}</td>
         </tr>
         <tr>
             <td>Nomor SK Pengangkatan</td>
             <td>:</td>
-            <td>{{ $data->pejabatLelang->sk_pengangkatan }}</td>
+            <td>{{ $pejabat->sk_pengangkatan }}</td>
         </tr>
         <tr>
             <td>Nomor Surat Tugas</td>
@@ -55,26 +57,27 @@
         <tr>
             <td>Nama</td>
             <td>:</td>
-            <td>{{ $data->nama_pemohon }}</td>
+            <td>{{ $data->risalahLelang->nama_pemohon }}</td>
         </tr>
         <tr>
             <td>Nomor Surat Permohonan</td>
             <td>:</td>
-            <td>{{ $data->no_permohonan }}</td>
+            <td>{{ $data->risalahLelang->no_permohonan }}</td>
         </tr>
         <tr>
             <td>Nomor Surat Penetapan</td>
             <td>:</td>
-            <td>{{ $data->no_penetapan }}</td>
+            <td>{{ $data->risalahLelang->no_penetapan }}</td>
         </tr>
         <tr>
             <td>Jenis Lelang</td>
             <td>:</td>
-            <td>{{ $data->jenisLelang->nama }}</td>
+            <td>{{ $jenis_lelang->nama }}</td>
         </tr>
         <tr>
             <td>Nama Pejabat Penjual</td>
             <td>:</td>
+            <td>{{ $data->risalahLelang->nama_penjual ?? '-' }}</td>
         </tr>
         <tr>
             <td>Surat Penunjukan Penjual</td>
@@ -86,29 +89,35 @@
         <tr>
             <td>Uraian</td>
             <td>:</td>
+            <td>{{ $data->uraian_barang }}</td>
         </tr>
         <tr>
             <td>Nama Pembeli</td>
             <td>:</td>
+            <td>{{ $data->nama_pembeli }}</td>
         </tr>
         <tr>
             <td>Nomor KTP/SIM/Paspor</td>
             <td>:</td>
+            <td>{{ $data->no_ktp }}</td>
         </tr>
         <tr>
             <td>Alamat</td>
             <td>:</td>
+            <td>{{ $data->alamat_pembeli }}</td>
         </tr>
         <tr>
             <td>Harga Pembelian</td>
             <td>:</td>
+            <td>{{ $data->pokok_lelang }}</td>
         </tr>
         <tr>
             <td>Catatan</td>
             <td>:</td>
+            <td>{!! $input['catatan'] !!}</td>
         </tr>
     </table>
-    <table style="margin-top: 70; width: 100%">
+    <table style="margin-top: 30; width: 100%">
         <tr>
             <td style="width: 33%; text-align: left">Penjual</td>
             <td style="width: 33%; text-align: center">Pembeli</td>
@@ -120,16 +129,30 @@
             <td style="text-align: right">Ttd</td>
         </tr>
     </table>
-    <table style="margin-top: 120; width: 100%">
+    <table style="margin-top: 70; width: 100%">
         <tr>
-            <td style="width: 33%">Saksi II</td>
-            <td style="width: 33%">Saksi I</td>
-            <td style="width: 33%">sebagai Akta Jual Beli Banjarmasin, 20 Januari 2024</td>
+            <td style="width: 33%; text-align: left">{{ $data->risalahLelang->nama_penjual ?? '' }}</td>
+            <td style="width: 33%; text-align: center">{{ $data->nama_pembeli ?? '' }}</td>
+            <td style="width: 33%; text-align: right">{{ $pejabat->nama ?? '' }} <br> NIP {{ $pejabat->nip ?? '' }}</td>
+        </tr>
+    </table>
+    <table style="margin-top: 80; width: 100%">
+        <tr>
+            <td style="width: 33%; text-align: left">Saksi II</td>
+            <td style="width: 33%; text-align: center">Saksi I</td>
+            <td style="width: 33%;">sebagai Akta Jual Beli Banjarmasin, 20 Januari 2024</td>
         </tr>
         <tr>
-            <td>Ttd</td>
-            <td>Ttd</td>
+            <td style="text-align: left">Ttd</td>
+            <td style="text-align: center">Ttd</td>
             <td>Kepala Kantor</td>
+        </tr>
+    </table>
+    <table style="margin-top: 70; width: 100%">
+        <tr>
+            <td style="width: 33%; text-align: left">{{ $input['saksi_2'] }}</td>
+            <td style="width: 33%; text-align: center">{{ $input['saksi_1'] }}</td>
+            <td style="width: 33%">{{ $input['kepala_kantor'] }}</td>
         </tr>
     </table>
 </page>
