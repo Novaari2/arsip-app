@@ -50,6 +50,7 @@
         <tr>
             <td>Nomor Surat Tugas</td>
             <td>:</td>
+            <td>{{ $data->risalahLelang->st_lelang }}</td>
         </tr>
         <tr>
             <td>Dilakukan penjualan lelang atas permohonan,</td>
@@ -82,6 +83,7 @@
         <tr>
             <td>Surat Penunjukan Penjual</td>
             <td>:</td>
+            <td>{{ $data->risalahLelang->no_surat_tugas_penjual }}</td>
         </tr>
         <tr>
             <td>Objek Lelang yang Terjual</td>
@@ -140,7 +142,7 @@
         <tr>
             <td style="width: 33%; text-align: left">Saksi II</td>
             <td style="width: 33%; text-align: center">Saksi I</td>
-            <td style="width: 33%;">sebagai Akta Jual Beli Banjarmasin, 20 Januari 2024</td>
+            <td style="width: 33%;">sebagai Akta Jual Beli Banjarmasin, {{ date('d M Y') }}</td>
         </tr>
         <tr>
             <td style="text-align: left">Ttd</td>

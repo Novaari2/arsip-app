@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\JenisLelang;
 use App\Models\PejabatLelang;
+use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -47,10 +49,9 @@ class FormatKuitansiController extends Controller
     }
 
     public function exportPdf($data, $filename, $template, $input){
-        // $pejabat = PejabatLelang::where('id', $data->risalahLelang->pejabat_lelang_id)->first();
-        // $jenis_lelang = JenisLelang::where('id', $data->risalahLelang->jenis_lelang_id)->first();
-        $image = public_path('assets/images/logo-kuitansi.svg');
-        $content = view('content-dashboard.format-kuitansi.' . $template, compact('image'))->render();
+        $pejabat = PejabatLelang::where('id', $data->risalahLelang->pejabat_lelang_id)->first();
+        $jenis_lelang = JenisLelang::where('id', $data->risalahLelang->jenis_lelang_id)->first();
+        $content = view('content-dashboard.format-kuitansi.' . $template, compact('data', 'input', 'pejabat','jenis_lelang'))->render();
         $html2pdf = new Html2Pdf('P','A4','en');
         if (ob_get_contents()) ob_end_clean();
         $html2pdf->writeHTML($content);
@@ -62,11 +63,11 @@ class FormatKuitansiController extends Controller
         $id = Crypt::decryptString($id);
         $filename = 'Format_kuitansi' . date('Y-m-d') . '.pdf';
         $template = 'kuitansi';
-        // $data = RisalahLelang::where('id',12)->with('pejabatLelang','jenisLelang')->first();
+        // $data = RisalahLelang::where('id',12)->with('pejabatLelang','barang')->first();
         $data = Barang::where('id', $id)->with('risalahLelang')->first();
         // return response()->json($data);
         $input = $request->all();
-        
+
         // return response()->json($data);
 
         $this->exportPdf($data, $filename, $template, $input);
