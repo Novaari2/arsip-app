@@ -38,9 +38,9 @@ class RisalahLelangController extends Controller
                 return $pejabat ? $pejabat->nama : '';
             })
             ->addColumn('action', function ($row) {
-                $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Edit</a>';
-                $btn .= '<a href="' . route('risalah_lelang.detail', Crypt::encryptString($row->id)) . '" class="detail-risalah btn btn-gradient-info btn-sm ml-1"><i class="mdi mdi-eye"></i>Detail</a>';
+                $btn = '<a href="' . route('risalah_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Edit</a>';
                 $btn .= '<button class="delete-lelang btn btn-danger btn-sm ml-1 disabled" data-id=' . Crypt::encryptString($row->id) . ' data-name=' . $row->title . '><i class="mdi mdi-delete"></i>Delete</button>';
+                $btn .= '<a href="' . route('risalah_lelang.view', Crypt::encryptString($row->id)) . '" class="btn btn-primary btn-sm ml-1"><i class="mdi mdi-ubuntu"></i>Lihat</a>';
                 return $btn;
             })
             ->rawColumns(['risalah','tanggal','pemohon','pejabat','action'])
@@ -51,15 +51,27 @@ class RisalahLelangController extends Controller
 
     private function jenisPenawaran(){
         $penawaran = [
-            '0' => 'Internet Open Bidding',
-            '1' => 'Internet Closed Bidding',
-            '2' => 'Kehadiran tertulis',
-            '3' => 'Kehadiran lisan',
-            '4' => 'E-konvensional',
-            '5' => 'Tromol pos',
+            '1' => 'Internet Open Bidding',
+            '2' => 'Internet Closed Bidding',
+            '3' => 'Kehadiran tertulis',
+            '4' => 'Kehadiran lisan',
+            '5' => 'E-konvensional',
+            '6' => 'Tromol pos',
         ];
 
         return $penawaran;
+    }
+
+    private function statusLelang(){
+        $status = [
+            '1' => 'Laku',
+            '2' => 'TAP',
+            '3' => 'Ditahan',
+            '4' => 'Batal',
+            '5' => 'Batal Karena Pelunasan',
+        ];
+
+        return $status;
     }
 
     public function add()
@@ -104,6 +116,12 @@ class RisalahLelangController extends Controller
             $risalah->tempat_lelang = $request->tempat_lelang;
             $risalah->no_risalah = $request->no_risalah_lelang;
             $risalah->tgl_lelang = $request->tgl_lelang;
+            $risalah->st_lelang = $request->st_lelang;
+            $risalah->tgl_surat_tugas = $request->tgl_surat_tugas;
+            $risalah->nama_penjual = $request->nama_penjual;
+            $risalah->no_surat_tugas_penjual = $request->no_surat_tugas_penjual;
+            $risalah->jenis_penawaran = $request->jenis_penawaran;
+            $risalah->status_lelang = $request->status_lelang;
             $risalah->save();
             if($risalah){
                 for($i = 0; $i < count($request->no_lot_barang); $i++){
@@ -194,5 +212,29 @@ class RisalahLelangController extends Controller
             DB::rollBack();
             return response()->json(['error' => $th->getMessage()]);
         }
+    }
+
+    public function view($id){
+        $id = Crypt::decryptString($id);
+        $risalah = RisalahLelang::where('id', $id)->with('pejabatLelang','jenisLelang','kategoriPemohon','rakGudang','rakGudangDetail')->first();
+        $jns_penawaran = isset($this->jenisPenawaran()[$risalah->jenis_penawaran]) ? $this->jenisPenawaran()[$risalah->jenis_penawaran] : '';
+        $status_lelang = isset($this->statusLelang()[$risalah->status_lelang]) ? $this->statusLelang()[$risalah->status_lelang] : '';
+        return view('content-dashboard.risalah_lelang.view', compact('risalah','jns_penawaran','status_lelang'));
+    }
+
+    public function edit($id){
+        $id = Crypt::decryptString($id);
+        $risalah = RisalahLelang::where('id', $id)->with('pejabatLelang','jenisLelang','kategoriPemohon','rakGudang','rakGudangDetail','barang')->first();
+        $kategori_pemohon = KategoriPemohon::all();
+        $pejabat_lelang = PejabatLelang::all();
+        $jenis_lelang = JenisLelang::all();
+        $jenis_penawaran = $this->jenisPenawaran();
+        $gudang = RakGudang::all();
+        // return response()->json($risalah);
+       return view('content-dashboard.risalah_lelang.edit', compact('risalah','kategori_pemohon','pejabat_lelang', 'jenis_lelang','jenis_penawaran','gudang'));
+    }
+
+    public function update(Request $request, $id){
+        
     }
 }

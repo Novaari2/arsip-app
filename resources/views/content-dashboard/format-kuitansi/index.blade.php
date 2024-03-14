@@ -20,11 +20,10 @@
   color: rgba(255, 0, 0, 0.663);
 }
 </style>
-@include('layouts.overview', ['text' => 'Format Kutipan', 'icon' => 'mdi mdi-airplay'])
+@include('layouts.overview', ['text' => 'Format Kuitansi', 'icon' => 'mdi mdi-airplay'])
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            {{-- <a href="{{ route('risalah_lelang.add') }}" class="btn btn-sm bg-green text-white aadd mb-4"><i class="mdi mdi-airplus"></i>Tambah</a> --}}
             @include('layouts.message')
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="home-tab">
@@ -55,7 +54,7 @@
         processing: true,
         serverSide: true,
         searchable: true,
-        ajax: "{{ route('format.index') }}",
+        ajax: "{{ route('kuitansi.index') }}",
         columns:[
             {
                 data: "risalah",
