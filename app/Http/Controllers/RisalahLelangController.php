@@ -38,7 +38,7 @@ class RisalahLelangController extends Controller
                 return $pejabat ? $pejabat->nama : '';
             })
             ->addColumn('action', function ($row) {
-                $btn = '<a href="' . route('jenis_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Edit</a>';
+                $btn = '<a href="' . route('risalah_lelang.edit', Crypt::encryptString($row->id)) . '" class="edit-categories btn btn-warning btn-sm"><i class="mdi mdi-lead-pencil"></i>Edit</a>';
                 $btn .= '<button class="delete-lelang btn btn-danger btn-sm ml-1 disabled" data-id=' . Crypt::encryptString($row->id) . ' data-name=' . $row->title . '><i class="mdi mdi-delete"></i>Delete</button>';
                 $btn .= '<a href="' . route('risalah_lelang.view', Crypt::encryptString($row->id)) . '" class="btn btn-primary btn-sm ml-1"><i class="mdi mdi-ubuntu"></i>Lihat</a>';
                 return $btn;
@@ -121,6 +121,7 @@ class RisalahLelangController extends Controller
             $risalah->nama_penjual = $request->nama_penjual;
             $risalah->no_surat_tugas_penjual = $request->no_surat_tugas_penjual;
             $risalah->jenis_penawaran = $request->jenis_penawaran;
+            $risalah->status_lelang = $request->status_lelang;
             $risalah->save();
             if($risalah){
                 for($i = 0; $i < count($request->no_lot_barang); $i++){
@@ -217,7 +218,23 @@ class RisalahLelangController extends Controller
         $id = Crypt::decryptString($id);
         $risalah = RisalahLelang::where('id', $id)->with('pejabatLelang','jenisLelang','kategoriPemohon','rakGudang','rakGudangDetail')->first();
         $jns_penawaran = isset($this->jenisPenawaran()[$risalah->jenis_penawaran]) ? $this->jenisPenawaran()[$risalah->jenis_penawaran] : '';
-        $status_lelang = isset($this->statusLelang()[$risalah->st_lelang]) ? $this->statusLelang()[$risalah->st_lelang] : '';
+        $status_lelang = isset($this->statusLelang()[$risalah->status_lelang]) ? $this->statusLelang()[$risalah->status_lelang] : '';
         return view('content-dashboard.risalah_lelang.view', compact('risalah','jns_penawaran','status_lelang'));
+    }
+
+    public function edit($id){
+        $id = Crypt::decryptString($id);
+        $risalah = RisalahLelang::where('id', $id)->with('pejabatLelang','jenisLelang','kategoriPemohon','rakGudang','rakGudangDetail','barang')->first();
+        $kategori_pemohon = KategoriPemohon::all();
+        $pejabat_lelang = PejabatLelang::all();
+        $jenis_lelang = JenisLelang::all();
+        $jenis_penawaran = $this->jenisPenawaran();
+        $gudang = RakGudang::all();
+        // return response()->json($risalah);
+       return view('content-dashboard.risalah_lelang.edit', compact('risalah','kategori_pemohon','pejabat_lelang', 'jenis_lelang','jenis_penawaran','gudang'));
+    }
+
+    public function update(Request $request, $id){
+        
     }
 }
