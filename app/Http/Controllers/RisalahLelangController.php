@@ -139,11 +139,11 @@ class RisalahLelangController extends Controller
 					$barang->bea_pembeli = $request->bea_pembeli[$i];
                     $barang->save();
                 }
+                if($barang){
+                    DB::commit();
+                    return redirect()->route('risalah_lelang.index')->with('success', 'Data Berhasil Disimpan');
+                }
             }
-
-            DB::commit();
-
-           return response()->json(['success' => 'Data Berhasil Disimpan']);
         }catch(Throwable $th){
             DB::rollBack();
            return $th->getMessage();
@@ -230,11 +230,72 @@ class RisalahLelangController extends Controller
         $jenis_lelang = JenisLelang::all();
         $jenis_penawaran = $this->jenisPenawaran();
         $gudang = RakGudang::all();
-        // return response()->json($risalah);
-       return view('content-dashboard.risalah_lelang.edit', compact('risalah','kategori_pemohon','pejabat_lelang', 'jenis_lelang','jenis_penawaran','gudang'));
+        $jns_penawaran = isset($this->jenisPenawaran()[$risalah->jenis_penawaran]) ? $this->jenisPenawaran()[$risalah->jenis_penawaran] : '';
+        $status_lelang = isset($this->statusLelang()[$risalah->status_lelang]) ? $this->statusLelang()[$risalah->status_lelang] : '';
+       return view('content-dashboard.risalah_lelang.edit', compact('risalah','kategori_pemohon','pejabat_lelang', 'jenis_lelang','jenis_penawaran','gudang','status_lelang','jns_penawaran'));
     }
 
     public function update(Request $request, $id){
-        
+        $id = Crypt::decryptString($id);
+        try{
+            DB::beginTransaction();
+            $risalah = RisalahLelang::find($id);
+            $risalah->pejabat_lelang_id = $request->nama_pejabat_lelang;
+            $risalah->kategori_pemohon_id = $request->kategori_pemohon;
+            $risalah->jenis_lelang_id = $request->jenis_lelang;
+            $risalah->rak_gudang_id = $request->nama_gudang;
+            $risalah->rak_gudang_detail_id = $request->nomor_rak;
+            $risalah->no_register = $request->no_regis;
+            $risalah->tgl_register = $request->tgl_regis;
+            $risalah->no_tiket_permohonan = $request->no_tiket_pemohon;
+            $risalah->nama_entitas_pemohon = $request->nama_entitas;
+            $risalah->nama_pemohon = $request->nama_pemohon;
+            $risalah->no_permohonan = $request->no_surat_pemohon;
+            $risalah->tgl_permohonan = $request->tgl_surat_pemohon;
+            $risalah->nama_debitur = $request->nama_debitur;
+            $risalah->no_hpkb = $request->no_hpkb;
+            $risalah->tgl_hpkb = $request->tgl_hpkb;
+            $risalah->no_penetapan = $request->no_penetapan_jadwal;
+            $risalah->tgl_penetapan = $request->tgl_penetapan_jadwal;
+            $risalah->tempat_lelang = $request->tempat_lelang;
+            $risalah->no_risalah = $request->no_risalah_lelang;
+            $risalah->tgl_lelang = $request->tgl_lelang;
+            $risalah->st_lelang = $request->st_lelang;
+            $risalah->tgl_surat_tugas = $request->tgl_surat_tugas;
+            $risalah->nama_penjual = $request->nama_penjual;
+            $risalah->no_surat_tugas_penjual = $request->no_surat_tugas_penjual;
+            $risalah->jenis_penawaran = $request->jenis_penawaran;
+            $risalah->status_lelang = $request->status_lelang;
+            $risalah->save();
+            if($risalah){
+                for($i = 0; $i < count($request->no_lot_barang); $i++){
+                    $oldBarang = Barang::where('risalah_lelang_id', $risalah->id)->where('no_lot_barang', $request->no_lot_barang[$i])->first();
+                    $oldBarang->delete();
+                    if($oldBarang){
+                        $barang = new Barang;
+                        $barang->risalah_lelang_id = $risalah->id;
+                        $barang->no_lot_barang = $request->no_lot_barang[$i];
+                        $barang->uraian_barang = $request->uraian_barang[$i];
+                        $barang->uang_jaminan = $request->uang_jaminan[$i];
+                        $barang->nilai_limit = $request->nilai_limit[$i];
+                        $barang->nama_pembeli = $request->nama_pembeli[$i];
+                        $barang->alamat_pembeli = $request->alamat_pembeli[$i];
+                        $barang->no_ktp = $request->no_ktp[$i];
+                        $barang->pokok_lelang = $request->harga_lelang[$i];
+                        $barang->bea_penjual = $request->bea_penjual[$i];
+                        $barang->bea_pembeli = $request->bea_pembeli[$i];
+                        $barang->save();
+                    }
+                    if($barang){
+                        DB::commit();
+                        return redirect()->route('risalah_lelang.index')->with('success', 'Data Berhasil Diubah');
+                    }
+                }
+            }
+        }catch(Throwable $th){
+            DB::rollBack();
+            return redirect()->route('risalah_lelang.edit')->withErrors($th->getMessage() . ' on the line ' . $th->getLine())->withInput();
+        }
+
     }
 }

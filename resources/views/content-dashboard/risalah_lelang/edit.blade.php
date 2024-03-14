@@ -42,7 +42,7 @@
                             </button>
                         </div>
                     @endif
-                    <form class="forms-sample" action="{{ route('risalah_lelang.create') }}" method="POST">
+                    <form class="forms-sample" action="{{ route('risalah_lelang.update', Request::segment(4, 'default')) }}" method="POST">
                         @csrf
                         <div class="form-section">
                             <div class="form-group">
@@ -190,7 +190,7 @@
                             <div class="form-group">
                                 <label for="">Status Lelang <sup class="sup-required">*</sup></label>
                                 <select name="status_lelang" id="status_lelang" class="form-control">
-                                    <option value="">Pilih Status Lelang</option>
+                                    <option value="{{ $risalah->status_lelang }}">{{ $status_lelang ?? 'Pilih Status Lelang' }}</option>
                                     <option value="1">Laku</option>
                                     <option value="2">TAP</option>
                                     <option value="3">Ditahan</option>
@@ -258,7 +258,7 @@
                                 <label for="">Jenis Penawaran <sup class="sup-required">*</sup></label>
                                 <div>
                                     <select name="jenis_penawaran" class="form-control" id="jenis_penawaran">
-                                        <option value="">Pilih Jenis Penawaran</option>
+                                        <option value="{{ $risalah->jenis_penawaran ?? '' }}">{{ $jns_penawaran ?? '' }}</option>
                                         @foreach($jenis_penawaran as $key => $penawaran)
                                             <option value="{{ $key }}">{{ $penawaran }}</option>
                                         @endforeach
@@ -270,7 +270,7 @@
                                 <label for="">Nama Gudang <sup class="sup-required">*</sup></label>
                                 <div>
                                     <select name="nama_gudang" id="nama_gudang" class="form-control">
-                                        <option value="{{ $risalah->rakGudang->id }}">{{ $risalah->rakGudang->nama_gudang }}</option>
+                                        <option value="{{ $risalah->rakGudang->id }}">{{ $risalah->rakGudang->nama_gudang ?? 'Pilih Gudang' }}</option>
                                         @foreach ($gudang as $item)
                                             <option value="{{ $item->id }}">{{ $item->nama_gudang }}</option>
                                         @endforeach
@@ -282,7 +282,7 @@
                                 <label for="Rak Gudang">Rak Gudang</label>
                                 <div>
                                     <select name="nomor_rak" id="nomor_rak" class="form-control">
-                                        <option value="">Pilih Rak Gudang</option>
+                                        <option value="{{ $risalah->rakGudangDetail->id }}">{{ $risalah->rakGudangDetail->no_rak ?? 'Pilih Rak Gudang' }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -290,26 +290,28 @@
                         <div class="form-section">
                             <h5 class="font-weight-bold">Tambah Barang</h5>
                             <br>
+                            @foreach ($risalah->barang as $key => $item)
                             <div class="row-tambah-barang">
+
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
+                                        <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1" value="{{ $item->no_lot_barang }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
+                                        <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1" value="{{ $item->uraian_barang }}">
                                     </div>
                                 </div>
 
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
+                                        <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1" value="{{ $item->uang_jaminan }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
+                                        <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1" value="{{ $item->nilai_limit }}">
 
                                     </div>
                                 </div>
@@ -317,12 +319,12 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
+                                        <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1" value="{{ $item->nama_pembeli }}">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
+                                        <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1" value="{{ $item->alamat_pembeli }}">
 
                                     </div>
                                 </div>
@@ -330,12 +332,12 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
+                                        <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1" value="{{ $item->no_ktp }}">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
+                                        <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1" value="{{ $item->pokok_lelang }}">
 
                                     </div>
                                 </div>
@@ -343,15 +345,16 @@
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
                                         <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
+                                        <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1" value="{{ $item->bea_penjual }}">
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                                        <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
+                                        <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1" value="{{ $item->bea_pembeli }}">
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="mt-4 w-100">
                                 <button type="button" id="tambah_barang" class="btn bg-green tambah_barang text-white w-100 shadow">
                                     Tambah Barang
@@ -415,18 +418,20 @@
         let tambahBarang = [
             {
                 id: 1,
-                no_lot_barang: null,
-                uraian_barang: null,
-                uang_jaminan: null,
-                nilai_limit: null,
-                nama_pembeli: null,
-                alamat_pembeli: null,
-                no_ktp: null,
-                harga_lelang: null,
-                bea_penjual: null,
-                bea_pembeli: null
+                no_lot_barang: $('#no_lot_barang_1').val(),
+                uraian_barang: $('#uraian_barang_1').val(),
+                uang_jaminan: $('#uang_jaminan_1').val(),
+                nilai_limit: $('#nilai_limit_1').val(),
+                nama_pembeli: $('#nama_pembeli_1').val(),
+                alamat_pembeli: $('#alamat_pembeli_1').val(),
+                no_ktp: $('#no_ktp_1').val(),
+                harga_lelang: $('#harga_lelang_1').val(),
+                bea_penjual: $('#bea_penjual_1').val(),
+                bea_pembeli: $('#bea_pembeli_1').val()
             }
         ];
+
+        console.log(tambahBarang);
 
     // event untuk select option social media
     $(document).on('input', '.input-no-lot', function(){
@@ -533,6 +538,7 @@
             let row = ''
             if(socialMedia.length > 0) {
                 socialMedia.map((value,index) => {
+                    console.log(index);
                     row += `
                             <div class="form-group row mt-4">
                                 <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
@@ -671,7 +677,7 @@
 </script>
 <script>
     $('document').ready(function(){
-        $('#nomor_rak').hide();
+        // $('#nomor_rak').hide();
 
         $('#nama_gudang').on('change', function(){
             let token = $('meta[name="csrf-token"]').attr('content');
@@ -695,7 +701,7 @@
                     console.log(xhr.responseText);
                 }
             })
-        })  
+        })
     })
 </script>
 @endsection
