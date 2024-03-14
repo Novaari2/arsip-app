@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('add', [RisalahLelangController::class, 'add'])->name('add');
         Route::post('/create', [RisalahLelangController::class, 'create'])->name('create');
         Route::get('edit/{id}', [RisalahLelangController::class, 'edit'])->name('edit');
+        Route::get('view/{id}', [RisalahLelangController::class, 'view'])->name('view');
         Route::post('update/{id}', [RisalahLelangController::class, 'update'])->name('update');
         Route::delete('destroy', [RisalahLelangController::class, 'destroy'])->name('destroy');
         Route::get('detail/{id}', [RisalahLelangController::class, 'detail'])->name('detail');
