@@ -27,6 +27,7 @@
                                 <th>Batal</th>
                                 <th>Realisai Pokok Lelang</th>
                                 <th>Realisai PNBP Lelang</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,6 +66,12 @@
             },
             {
                 data: 'realisasi_pnbp_lelang'
+            },
+            {
+                data: "action",
+                name: "action",
+                orderable: false,
+                searchable: false
             }
         ]
     });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KategoriPemohon;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Yajra\DataTables\Facades\DataTables;
@@ -57,7 +58,11 @@ class LaporanRealisasiLelangPerbarang extends Controller
                 $nominal = array_sum($pnpb_lelang);
                 return number_format($nominal, 0, ',', '.');
             })
-            ->rawColumns(['nama','laku','tap','batal','realisasi_pokok_lelang','realisasi_pnbp_lelang'])
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="' . route('laporan_gudang.view', Crypt::encryptString($row->id)) . '" class="btn btn-primary btn-sm ml-1"><i class="mdi mdi-ubuntu"></i>Lihat</a>';
+                return $btn;
+            })
+            ->rawColumns(['nama','laku','tap','batal','realisasi_pokok_lelang','realisasi_pnbp_lelang','action'])
             ->make(true);
         }
         return view('content-dashboard.laporan-perjenis-barang.index');
@@ -154,5 +159,11 @@ class LaporanRealisasiLelangPerbarang extends Controller
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         $writer->save('php://output');
         exit;
+    }
+
+    public function view($id){
+        $id = Crypt::decryptString($id);
+        $data = RisalahLelang::where('kategori_pemohon_id', $id)->with('kategoriPemohon')->get();
+        return view('content-dashboard.laporan-perjenis-barang.view', compact('data'));
     }
 }

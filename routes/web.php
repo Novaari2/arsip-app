@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [RisalahLelangController::class, 'destroy'])->name('destroy');
         Route::get('detail/{id}', [RisalahLelangController::class, 'detail'])->name('detail');
         Route::post('getNomorRak', [RisalahLelangController::class, 'getNomorRak'])->name('getNomorRak');
+        Route::post('getBeaLelang', [RisalahLelangController::class, 'getBeaLelang'])->name('getBeaLelang');
     });
 
     Route::group(['middleware' => ['can:rak_gudang'], 'namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){
@@ -132,6 +133,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/excel/jumlah', [LaporanRealisasiLelangJumlah::class, 'laporanRealisasiJumlahPerjenis'])->name('printExcelJumlah');
         Route::get('/excel/pejabat', [LaporanRealisasiLelangPejabat::class, 'laporanRealisasiPejabat'])->name('printExcelPejabat');
         Route::get('/excel/pertahun', [LaporanRealisasiLelang::class, 'laporanRealisasiPerTahun'])->name('printExcelPertahun');
+        Route::get('/view/{id}', [LaporanRealisasiLelangPerbarang::class, 'view'])->name('view');
     });
 
     Route::group(['namespace' => 'format', 'prefix' => 'format', 'as' => 'format.'], function () {
