@@ -43,6 +43,13 @@
         </li>
       @endcan
 
+      <li class="nav-item {{ Request::route()->getPrefix() === 'admin/user' ? 'active' : '' }}">
+        <a href="{{ route('bea_lelang.index') }}" class="nav-link">
+          <span class="menu-title">Bea Lelang</span>
+          <i class="mdi  mdi-book-multiple menu-icon"></i>
+        </a>
+      </li>
+
       @can('jenis_lelang')
         <li class="nav-item {{ Request::route()->getPrefix() === 'administrator/user' ? 'active' : '' }}">
             <a href="{{ route('jenis_lelang.index') }}" class="nav-link">

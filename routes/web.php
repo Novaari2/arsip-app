@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeaLelangController;
 use App\Http\Controllers\FormatKuitansiController;
 use App\Http\Controllers\FormatKutipanController;
 use App\Http\Controllers\HomeController;
@@ -143,6 +144,15 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/', [FormatKuitansiController::class, 'index'])->name('index');
         Route::get('add/{id}', [FormatKuitansiController::class, 'add'])->name('add');
         Route::post('kuitansi/{id}', [FormatKuitansiController::class, 'kuitansiPdf'])->name('kuitansi');
+    });
+
+    Route::group(['namespace' => 'bea_lelang', 'prefix' => 'bea_lelang', 'as' => 'bea_lelang.'], function(){
+        Route::get('/', [BeaLelangController::class, 'index'])->name('index');
+        Route::get('add', [BeaLelangController::class, 'add'])->name('add');
+        Route::post('create', [BeaLelangController::class, 'create'])->name('create');
+        Route::get('edit/{id}', [BeaLelangController::class, 'edit'])->name('edit');
+        Route::post('update/{id}', [BeaLelangController::class, 'update'])->name('update');
+        Route::delete('destroy', [BeaLelangController::class, 'destroy'])->name('destroy');
     });
 
 });
