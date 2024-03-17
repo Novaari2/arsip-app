@@ -45,8 +45,8 @@ class BeaLelangController extends Controller
         return view('content-dashboard.bea_lelang.add');
     }
 
-    public function create(Request $request){
-
+    public function create(Request $request)
+    {
         try{
             $data = BeaLelang::create([
                 'nama' => $request->nama,

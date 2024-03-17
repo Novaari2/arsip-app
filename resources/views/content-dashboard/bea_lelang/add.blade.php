@@ -51,12 +51,12 @@
 
                         <div class="form-group">
                             <label for="">Bea Penjual <sup class="sup-required">*</sup></label>
-                            <input type="number" id="bea_penjual" name="bea_penjual" class="form-control" value="{{ old('bea_penjual') }}">
+                            <input type="number" id="bea_penjual" step="any" name="bea_penjual" class="form-control" value="{{ old('bea_penjual') }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="">Bea PenPembelijual <sup class="sup-required">*</sup></label>
-                            <input type="number" id="bea_penjual" name="bea_penjual" class="form-control" value="{{ old('bea_penjual') }}">
+                            <label for="">Bea Pembeli <sup class="sup-required">*</sup></label>
+                            <input type="number" id="bea_pembeli" step="any" name="bea_pembeli" class="form-control" value="{{ old('bea_pembeli') }}">
                         </div>
 
                         <a href="{{route('bea_lelang.index')}}" class="btn btn-blue-material mr-2">Kembali</a>
