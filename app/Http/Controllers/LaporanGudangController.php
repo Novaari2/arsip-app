@@ -28,11 +28,11 @@ class LaporanGudangController extends Controller
                 $nmr_rak = [];
                 foreach ($row->risalahLelang as $key => $value) {
                     $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
-                    foreach ($rak as $key => $value) {
-                        array_push($nmr_rak, $value->no_rak);
+                    foreach ($rak as $key => $item) {
+                        array_push($nmr_rak, 'No. Rak : ' . $item->no_rak . ' -> No. Risalah : ' . $value->no_risalah);
                     }
                 }
-                return implode(', ', $nmr_rak);
+                return implode('<br> ', $nmr_rak);
             })
             ->addColumn('jumlah_risalah', function($row){
                 return count($row->risalahLelang);
@@ -88,8 +88,8 @@ class LaporanGudangController extends Controller
             $nmr_rak = [];
             foreach ($item->risalahLelang as $key => $value) {
                 $rak = RakGudangDetail::where('id', $value->rak_gudang_detail_id)->get();
-                foreach ($rak as $key => $value) {
-                    array_push($nmr_rak, $value->no_rak);
+                foreach ($rak as $key => $item) {
+                    array_push($nmr_rak, 'No. Rak : ' . $item->no_rak . ' -> No. Risalah : ' . $value->no_risalah);
                 }
             }
             $sheet->setCellValue('C' . $row, implode(', ', $nmr_rak));
