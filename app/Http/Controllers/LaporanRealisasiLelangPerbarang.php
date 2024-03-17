@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\KategoriPemohon;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
@@ -162,8 +163,23 @@ class LaporanRealisasiLelangPerbarang extends Controller
     }
 
     public function view($id){
-        $id = Crypt::decryptString($id);
-        $data = RisalahLelang::where('kategori_pemohon_id', $id)->with('kategoriPemohon')->get();
-        return view('content-dashboard.laporan-perjenis-barang.view', compact('data'));
+        $dec_id = Crypt::decryptString($id);
+
+        $data = RisalahLelang::where('kategori_pemohon_id', $dec_id)->with('barang')->get();
+
+        $summary = [];
+
+        foreach ($data as $value) {
+            $totalPokokLelang = $value->barang->sum('pokok_lelang');
+            $summary[$value->id] = [
+                'nama_entitas' => $value->nama_entitas_pemohon,
+                'risalah_id' => $value->id,
+                'kategori_pemohon_id' => $value->kategori_pemohon_id,
+                'total_pokok_lelang' => $totalPokokLelang,
+                'total_pnbp_lelang' => $value->barang->sum('bea_penjual') + $value->barang->sum('bea_pembeli'),
+            ];
+        }
+
+        return view('content-dashboard.laporan-perjenis-barang.view', compact('data', 'summary'));
     }
 }

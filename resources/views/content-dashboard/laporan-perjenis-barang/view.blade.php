@@ -11,12 +11,16 @@
                         <thead>
                             <tr>
                                 <th>Data Pemohon</th>
+                                <th>Total Pokok Lelang</th>
+                                <th>Total PNBP Lelang</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $key => $value)
+                            @foreach ($summary as $item)
                                 <tr>
-                                    <td>{{ $value->nama_entitas_pemohon }}</td>
+                                    <td>{{ $item['nama_entitas'] }}</td>
+                                    <td>{{ $item['total_pokok_lelang'] }}</td>
+                                    <td>{{ $item['total_pnbp_lelang'] }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -25,4 +29,4 @@
             </div>
         </div>
     </div>
-@overwrite
+@endsection

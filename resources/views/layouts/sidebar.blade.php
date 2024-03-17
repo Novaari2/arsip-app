@@ -96,7 +96,7 @@
             <ul class="nav flex-column sub-menu">
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index') }}">Laporan Gudang Lelang</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-risalah') }}">Laporan Risalah Lelang</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-perbarang') }}">Laporan Kategori Barang</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-perbarang') }}">Laporan Kategori Pemohon</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-jumlah') }}">Laporan Jumlah Jenis/Asal Barang</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pejabat') }}">Laporan Lelang Pejabat</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('laporan_gudang.index-pertahun') }}">Laporan Lelang Per Tahun</a></li>
