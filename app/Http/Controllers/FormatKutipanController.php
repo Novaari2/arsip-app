@@ -15,9 +15,18 @@ use Yajra\DataTables\Facades\DataTables;
 class FormatKutipanController extends Controller
 {
 
-    public function index(){
-        $risalah = Barang::with('risalahLelang')->get();
-        // return response()->json($risalah);
+    public function index(Request $request){
+        $risalah = Barang::with('risalahLelang');
+        
+        if ($request->ajax() && !empty($request->search['value'])) {
+            $searchValue = $request->search['value'];
+            $risalah->whereHas('risalahLelang', function ($query) use ($searchValue) {
+                $query->where('no_risalah', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('nama_pembeli', 'LIKE', '%' . $searchValue . '%');
+            });
+        }
+
+        $risalah = $risalah->get();
 
         if(request()->ajax()){
             return DataTables::of($risalah)
