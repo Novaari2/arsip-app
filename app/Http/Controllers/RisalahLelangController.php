@@ -18,10 +18,19 @@ use Yajra\DataTables\Facades\DataTables;
 class RisalahLelangController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
             $data = RisalahLelang::query();
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where(function($query) use ($searchValue) {
+                    $query->where('no_risalah', 'LIKE', '%' . $searchValue . '%')
+                          ->orWhere('nama_pemohon', 'LIKE', '%' . $searchValue . '%');
+                });
+            }
+
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('risalah', function($row){

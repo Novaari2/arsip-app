@@ -12,16 +12,23 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LaporanRisalahLelang extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
-            $data = RisalahLelang::select('tgl_register', 'status_lelang')
-            ->get()
-            ->groupBy(function($item) {
+            $data = RisalahLelang::select('tgl_register', 'status_lelang')->get();
+            // Lakukan filtering berdasarkan input pencarian tahun jika ada
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data = $data->filter(function($item) use ($searchValue) {
+                    return date('Y', strtotime($item->tgl_register)) == $searchValue;
+                });
+            }
+
+            $groupedData = $data->groupBy(function($item) {
                 return \Carbon\Carbon::parse($item->tgl_register)->format('Y');
             });
 
-            return DataTables::of($data)
+            return DataTables::of($groupedData)
             ->addIndexColumn()
             ->addColumn('tahun', function($row){
                foreach ($row as $value) {

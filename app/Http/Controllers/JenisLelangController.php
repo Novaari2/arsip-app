@@ -10,10 +10,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class JenisLelangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
             $data = JenisLelang::query();
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where(function($query) use ($searchValue) {
+                    $query->where('nama', 'LIKE', '%' . $searchValue . '%');
+                });
+            }
+
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama', function($row){

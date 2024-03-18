@@ -14,10 +14,17 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LaporanGudangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
-            $data = RakGudang::with('risalahLelang')->get();
+            $data = RakGudang::with('risalahLelang');
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where('nama_gudang', 'LIKE', '%' . $searchValue . '%');
+            }
+
+            $data = $data->get();
 
             return DataTables::of($data)
             ->addIndexColumn()

@@ -13,11 +13,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LaporanRealisasiLelangPerbarang extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         if(request()->ajax()){
-            $data = KategoriPemohon::with('risalahLelang')->get();
+            $data = KategoriPemohon::with('risalahLelang');
             // return response()->json($data);
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where('nama', 'LIKE', '%' . $searchValue . '%');
+            }
+
+            $data = $data->get();
 
             return DataTables::of($data)
             ->addIndexColumn()

@@ -7,13 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str; 
 
 class PejabatLelangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
             $data = PejabatLelang::query();
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where(function($query) use ($searchValue) {
+                    $query->where('nama', 'LIKE', '%' . $searchValue . '%')
+                          ->orWhere('nip', 'LIKE', '%' . $searchValue . '%')
+                          ->orWhere('sk_pengangkatan', 'LIKE', '%' . $searchValue . '%');
+                });
+            }
 
             return DataTables::of($data)
             ->addIndexColumn()

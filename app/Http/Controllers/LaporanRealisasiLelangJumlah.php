@@ -12,10 +12,17 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LaporanRealisasiLelangJumlah extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
-            $data = JenisLelang::with('risalahLelang','risalahLelang.barang')->get();
+            $data = JenisLelang::with('risalahLelang','risalahLelang.barang');
+
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data->where('nama', 'LIKE', '%' . $searchValue . '%');
+            }
+
+            $data = $data->get();
 
             return DataTables::of($data)
             ->addIndexColumn()

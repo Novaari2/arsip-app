@@ -14,10 +14,19 @@ use Yajra\DataTables\Facades\DataTables;
 class LaporanRealisasiLelang extends Controller
 {
     //report 2
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()){
-            $data = RisalahLelang::with('barang')->get()->groupBy(function($item){
+            $data = RisalahLelang::with('barang')->get();
+            
+            if (!empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $data = $data->filter(function($item) use ($searchValue) {
+                    return date('Y', strtotime($item->tgl_register)) == $searchValue;
+                });
+            }
+            
+            $data = $data->groupBy(function($item){
                 return Carbon::parse($item->tgl_register)->format('Y');
             });
 
