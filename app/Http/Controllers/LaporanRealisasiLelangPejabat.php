@@ -23,7 +23,7 @@ class LaporanRealisasiLelangPejabat extends Controller
             }
 
             $data = $data->get();
-            
+
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('nama', function($row){
@@ -53,8 +53,8 @@ class LaporanRealisasiLelangPejabat extends Controller
                 return number_format($nominal, 0, ',', '.');
             })
             ->addColumn('produktivitas_lelang', function($row){
-                $rlLaku = RisalahLelang::where('st_lelang', 1)->where('pejabat_lelang_id', $row->id)->get();
-                $rlTap = RisalahLelang::where('st_lelang', 2)->where('pejabat_lelang_id', $row->id)->get();
+                $rlLaku = RisalahLelang::where('status_lelang', 1)->where('pejabat_lelang_id', $row->id)->get();
+                $rlTap = RisalahLelang::where('status_lelang', 2)->where('pejabat_lelang_id', $row->id)->get();
                 $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
                 return $pro_lelang . '%';
             })
