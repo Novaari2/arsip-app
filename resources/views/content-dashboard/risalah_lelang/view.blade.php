@@ -35,7 +35,7 @@
 
                         <div class="form-group">
                             <label for="">Tanggal Lelang </label>
-                            <input type="text" id="tgl_risalah_lelang" name="tgl_risalah_lelang" class="form-control" value="{{ $risalah->tgl_lelang ?? '' }}" readonly>
+                            <input type="text" id="tgl_risalah_lelang" name="tgl_risalah_lelang" class="form-control" value="{{ date('Y-m-d', strtotime($risalah->tgl_lelang)) ?? '' }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -45,7 +45,7 @@
 
                         <div class="form-group">
                             <label for="">Tgl Register Lelang </label>
-                            <input type="text" class="form-control" value="{{ $risalah->tgl_register ?? '' }}" readonly>
+                            <input type="text" class="form-control" value="{{ date('Y-m-d', strtotime($risalah->tgl_register)) ?? '' }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -60,7 +60,7 @@
 
                         <div class="form-group">
                             <label for="">Tgl Surat Pemohon</label>
-                            <input type="text" class="form-control" name="" id="" value="{{ $risalah->tgl_permohonan ?? '' }}" readonly>
+                            <input type="text" class="form-control" name="" id="" value="{{ date('Y-m-d', strtotime($risalah->tgl_permohonan)) ?? '' }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -90,7 +90,7 @@
 
                         <div class="form-group">
                             <label for="">Tgl HPKB</label>
-                            <input type="text" class="form-control" name="" id="" value="{{ $risalah->tgl_hpkb ?? '' }}" readonly>
+                            <input type="text" class="form-control" name="" id="" value="{{ date('Y-m-d', strtotime($risalah->tgl_hpkb)) ?? '' }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -100,7 +100,7 @@
 
                         <div class="form-group">
                             <label for="">Tgl Penetapan Jadwal Lelang</label>
-                            <input type="text" class="form-control" name="" id="" value="{{ $risalah->tgl_penetapan ?? '' }}" readonly>
+                            <input type="text" class="form-control" name="" id="" value="{{ date('Y-m-d', strtotime($risalah->tgl_penetapan)) ?? '' }}" readonly>
                         </div>
 
                         <div class="form-group">

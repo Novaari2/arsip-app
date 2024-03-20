@@ -174,10 +174,10 @@ class RisalahLelangController extends Controller
                     return $row->uraian_barang;
                 })
                 ->addColumn('uang_jaminan', function($row){
-                    return $row->uang_jaminan;
+                    return number_format($row->uang_jaminan, 0, ',', '.');
                 })
                 ->addColumn('nilai_limit', function($row){
-                    return $row->nilai_limit;
+                    return number_format($row->nilai_limit, 0, ',', '.');
                 })
                 ->addColumn('nama_pembeli', function($row){
                     return $row->nama_pembeli;
@@ -189,13 +189,13 @@ class RisalahLelangController extends Controller
                     return $row->no_ktp;
                 })
                 ->addColumn('pokok_lelang', function($row){
-                    return $row->pokok_lelang;
+                    return number_format($row->pokok_lelang, 0, ',', '.');
                 })
                 ->addColumn('bea_penjual', function($row){
-                    return $row->bea_penjual;
+                    return number_format($row->bea_penjual, 0, ',', '.');
                 })
                 ->addColumn('bea_pembeli', function($row){
-                    return $row->bea_pembeli;
+                    return number_format($row->bea_pembeli, 0, ',', '.');
                 })
                 ->rawColumns(['no_lot_barang','uraian_barang','uang_jaminan','nilai_limit','nama_pembeli','alamat_pembeli','no_ktp','pokok_lelang','bea_penjual','bea_pembeli'])
                 ->make(true);
