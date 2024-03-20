@@ -290,6 +290,7 @@
                         <div class="form-section">
                             <h5 class="font-weight-bold">Tambah Barang</h5>
                             <br>
+                            <div class="form-container">
                             <div class="row-tambah-barang">
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
@@ -351,8 +352,10 @@
                                         <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
                                     </div>
                                 </div>
+                                <button type="button" class="btn btn-danger hapus-barang" data-id="1">Hapus</button>
                                 <hr class="mt-5 border-1 border-dark">
                             </div>
+                        </div>
                             <div class="mt-4 w-100">
                                 <button type="button" id="tambah_barang" class="btn bg-green tambah_barang text-white w-100 shadow">
                                     Tambah Barang
@@ -415,157 +418,207 @@
     $(document).ready(function(){
         let tambahBarang = [];
 
-
-    $(document).on('input', '.input-no-lot', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].no_lot_barang = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-uraian', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].uraian_barang = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-uang-jaminan', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].uang_jaminan = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-nilai-limit', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].nilai_limit = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-nama-pembeli', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].nama_pembeli = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-alamat-pembeli', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].alamat_pembeli = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-no-ktp', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].no_ktp = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-harga-lelang', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].harga_lelang = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-bea-penjual', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].bea_penjual = $(this).val() || null;
-    })
-
-
-    $(document).on('input', '.input-bea-pembeli', function(){
-        const index = $(this).data('id') - 1;
-        tambahBarang[index].bea_pembeli = $(this).val() || null;
-    })
-
-    $('#tambah_barang').on('click', function() {
-        let newId = tambahBarang.length + 1;
-        tambahBarang.push({
-            id: newId,
-            no_lot_barang: null,
-            uraian_barang: null,
-            uang_jaminan: null,
-            nilai_limit: null,
-            nama_pembeli: null,
-            alamat_pembeli: null,
-            no_ktp: null,
-            harga_lelang: null,
-            bea_penjual: null,
-            bea_pembeli: null
-        });
-        let newRow = rowTambahBarang(tambahBarang[newId - 1]);
-        $('.row-tambah-barang').append(newRow);
-    })
-
-    $(document).on('click', '.hapus-barang', function(){
-        let id = $(this).data('id');
-        console.log(tambahBarang.length);
-        tambahBarang.splice(id - 1, 1);
-        console.log(tambahBarang.length);
-    })
-
-    function rowTambahBarang(value) {
-        return `
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_lot_barang_${value.id}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${value.id}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uraian_barang_${value.id}" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${value.id}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uang_jaminan_${value.id}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${value.id}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nilai_limit_${value.id}" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${value.id}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nama_pembeli_${value.id}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${value.id}"}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="alamat_pembeli_${value.id}" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${value.id}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_ktp_${value.id}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${value.id}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="harga_lelang_${value.id}" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${value.id}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_penjual_${value.id}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${value.id}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_pembeli_${value.id}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${value.id}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-danger hapus-barang" data-id="${value.id}">Hapus</button>
-                        </div>
-                    </div>
-                    <hr class="mt-5 border-1 border-dark">
-            `;
+        function formatRupiah(angka) {
+            let reverse = angka.toString().split('').reverse().join('');
+            let ribuan = reverse.match(/\d{1,3}/g);
+            let hasil = ribuan.join('.').split('').reverse().join('');
+            return hasil;
         }
+
+
+        $(document).on('input', '.input-no-lot', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+
+            tambahBarang[index].no_lot_barang = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-uraian', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].uraian_barang = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-uang-jaminan', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let uang_jaminan = formatRupiah(nilai);
+            tambahBarang[index].uang_jaminan = $(this).val(uang_jaminan) || null;
+        })
+
+
+        $(document).on('input', '.input-nilai-limit', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let nilai_limit = formatRupiah(nilai);
+            tambahBarang[index].nilai_limit = $(this).val(nilai_limit) || null;
+        })
+
+
+        $(document).on('input', '.input-nama-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].nama_pembeli = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-alamat-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].alamat_pembeli = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-no-ktp', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].no_ktp = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-harga-lelang', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let harga_lelang = formatRupiah(nilai);
+            tambahBarang[index].harga_lelang = $(this).val(harga_lelang) || null;
+        })
+
+
+        $(document).on('input', '.input-bea-penjual', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let bea_penjual = formatRupiah(nilai);
+            tambahBarang[index].bea_penjual = $(this).val(bea_penjual) || null;
+        })
+
+
+        $(document).on('input', '.input-bea-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let bea_pembeli = formatRupiah(nilai);
+            tambahBarang[index].bea_pembeli = $(this).val(bea_pembeli) || null;
+        })
+
+        $('#tambah_barang').on('click', function() {
+            let newId = tambahBarang.length + 1;
+            tambahBarang.push({
+                id: newId,
+                no_lot_barang: null,
+                uraian_barang: null,
+                uang_jaminan: null,
+                nilai_limit: null,
+                nama_pembeli: null,
+                alamat_pembeli: null,
+                no_ktp: null,
+                harga_lelang: null,
+                bea_penjual: null,
+                bea_pembeli: null
+            });
+            console.log(tambahBarang);
+            let newRow = rowTambahBarang(tambahBarang[newId - 1]);
+            $('.form-container').append(newRow);
+        })
+
+        $(document).on('click', '.hapus-barang', function(){
+            let id = $(this).data('id');
+            tambahBarang.splice(parseInt(id) - 1, 1);
+            $(this).parent('.row-tambah-barang').remove();
+        });
+
+        function rowTambahBarang(value) {
+            return `
+                    <div class="row-tambah-barang">
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="no_lot_barang_${value.id}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="uraian_barang_${value.id}" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
+                                <input type="text" id="uang_jaminan_${value.id}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
+                                <input type="text" id="nilai_limit_${value.id}" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="nama_pembeli_${value.id}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${value.id}"}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="alamat_pembeli_${value.id}" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">No. KTP <sup class="sup-required">*</sup></label>
+                                <input type="text" id="no_ktp_${value.id}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="harga_lelang_${value.id}" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
+                                <input type="text" id="bea_penjual_${value.id}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="bea_pembeli_${value.id}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger hapus-barang" data-id="${value.id}">Hapus</button>
+                        <hr class="mt-5 border-1 border-dark">
+                    </div>
+                `;
+            }
     });
 </script>
 <script>
