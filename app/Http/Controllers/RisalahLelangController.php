@@ -101,6 +101,7 @@ class RisalahLelangController extends Controller
 
     public function create(Request $request)
     {
+        // dd($request->all());
        try{
             DB::beginTransaction();
 
@@ -138,14 +139,14 @@ class RisalahLelangController extends Controller
                     $barang->risalah_lelang_id = $risalah->id;
                     $barang->no_lot_barang = $request->no_lot_barang[$i];
                     $barang->uraian_barang = $request->uraian_barang[$i];
-                    $barang->uang_jaminan = $request->uang_jaminan[$i];
-                    $barang->nilai_limit = $request->nilai_limit[$i];
+                    $barang->uang_jaminan = preg_replace("/[^0-9]/", "",$request->uang_jaminan[$i]);
+                    $barang->nilai_limit = preg_replace("/[^0-9]/", "",$request->nilai_limit[$i]);
                     $barang->nama_pembeli = $request->nama_pembeli[$i];
 					$barang->alamat_pembeli = $request->alamat_pembeli[$i];
 					$barang->no_ktp = $request->no_ktp[$i];
-					$barang->pokok_lelang = $request->harga_lelang[$i];
-					$barang->bea_penjual = $request->bea_penjual[$i];
-					$barang->bea_pembeli = $request->bea_pembeli[$i];
+					$barang->pokok_lelang = preg_replace("/[^0-9]/", "",$request->harga_lelang[$i]);
+					$barang->bea_penjual = preg_replace("/[^0-9]/", "", $request->bea_penjual[$i]);
+					$barang->bea_pembeli = preg_replace("/[^0-9]/", "", $request->bea_pembeli[$i]);
                     $barang->save();
                 }
                 if($barang){

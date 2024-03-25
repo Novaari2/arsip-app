@@ -290,6 +290,7 @@
                         <div class="form-section">
                             <h5 class="font-weight-bold">Tambah Barang</h5>
                             <br>
+                            <div class="form-container">
                             <div class="row-tambah-barang">
                                 <div class="form-group row mt-4">
                                     <div class="col-md-6">
@@ -351,7 +352,10 @@
                                         <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
                                     </div>
                                 </div>
+                                <button type="button" class="btn btn-danger hapus-barang" data-id="1">Hapus</button>
+                                <hr class="mt-5 border-1 border-dark">
                             </div>
+                        </div>
                             <div class="mt-4 w-100">
                                 <button type="button" id="tambah_barang" class="btn bg-green tambah_barang text-white w-100 shadow">
                                     Tambah Barang
@@ -412,9 +416,125 @@
 </script>
 <script>
     $(document).ready(function(){
-        let tambahBarang = [
-            {
-                id: 1,
+        let tambahBarang = [];
+
+        function formatRupiah(angka) {
+            let reverse = angka.toString().split('').reverse().join('');
+            let ribuan = reverse.match(/\d{1,3}/g);
+            let hasil = ribuan.join('.').split('').reverse().join('');
+            return hasil;
+        }
+
+
+        $(document).on('input', '.input-no-lot', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+
+            tambahBarang[index].no_lot_barang = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-uraian', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].uraian_barang = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-uang-jaminan', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let uang_jaminan = formatRupiah(nilai);
+            tambahBarang[index].uang_jaminan = $(this).val(uang_jaminan) || null;
+        })
+
+
+        $(document).on('input', '.input-nilai-limit', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let nilai_limit = formatRupiah(nilai);
+            tambahBarang[index].nilai_limit = $(this).val(nilai_limit) || null;
+        })
+
+
+        $(document).on('input', '.input-nama-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].nama_pembeli = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-alamat-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].alamat_pembeli = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-no-ktp', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            tambahBarang[index].no_ktp = $(this).val() || null;
+        })
+
+
+        $(document).on('input', '.input-harga-lelang', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let harga_lelang = formatRupiah(nilai);
+            tambahBarang[index].harga_lelang = $(this).val(harga_lelang) || null;
+        })
+
+
+        $(document).on('input', '.input-bea-penjual', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let bea_penjual = formatRupiah(nilai);
+            tambahBarang[index].bea_penjual = $(this).val(bea_penjual) || null;
+        })
+
+
+        $(document).on('input', '.input-bea-pembeli', function(){
+            const index = $(this).data('id') - 1;
+            if (tambahBarang[index] === undefined) {
+                tambahBarang[index] = {};
+            }
+            let nilai = $(this).val();
+            nilai = nilai.replace(/[^\d]/g,'');
+            let bea_pembeli = formatRupiah(nilai);
+            tambahBarang[index].bea_pembeli = $(this).val(bea_pembeli) || null;
+        })
+
+        $('#tambah_barang').on('click', function() {
+            let newId = tambahBarang.length + 1;
+            tambahBarang.push({
+                id: newId,
                 no_lot_barang: null,
                 uraian_barang: null,
                 uang_jaminan: null,
@@ -425,249 +545,81 @@
                 harga_lelang: null,
                 bea_penjual: null,
                 bea_pembeli: null
-            }
-        ];
-
-    // event untuk select option social media
-    $(document).on('input', '.input-no-lot', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].no_lot_barang = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-uraian', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].uraian_barang = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-uang-jaminan', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].uang_jaminan = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-nilai-limit', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].nilai_limit = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-nama-pembeli', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].nama_pembeli = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-alamat-pembeli', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].alamat_pembeli = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-no-ktp', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].no_ktp = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-harga-lelang', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].harga_lelang = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-bea-penjual', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].bea_penjual = valueSocial ?? null
-    })
-
-    // event untuk select option social media
-    $(document).on('input', '.input-bea-pembeli', function(){
-            const valueSocial = $(this).val()
-            tambahBarang[parseInt($(this).data('id')) - 1].bea_pembeli = valueSocial ?? null
-    })
-
-    $(document).on('click','.tambah_barang', function() {
-        let tmpSocialMedia = {
-            id: tambahBarang.length + 1,
-            no_lot_barang: null,
-            uraian_barang: null,
-            uang_jaminan: null,
-            nilai_limit: null,
-            nama_pembeli: null,
-            alamat_pembeli: null,
-            no_ktp: null,
-            harga_lelang: null,
-            bea_penjual: null,
-            bea_pembeli: null
-        }
-        console.log(tmpSocialMedia);
-        tambahBarang.push(tmpSocialMedia);
-        $('.row-tambah-barang').html(rowSocialMedia(tambahBarang))
-    })
-
-    // event delete row social media
-    $(document).on('click','.btn-delete-social-media', function() {
-            tambahBarang.splice(parseInt($(this).data('id')) - 1, 1)
-            if(tambahBarang.length == 0) {
-                let tmpSocialMedia = {
-                    id: tambahBarang.length + 1,
-                    no_lot_barang: null,
-                    uraian_barang: null,
-                    uang_jaminan: null,
-                    nilai_limit: null,
-                    nama_pembeli: null,
-                    alamat_pembeli: null,
-                    no_ktp: null,
-                    harga_lelang: null,
-                    bea_penjual: null,
-                    bea_pembeli: null
-                }
-                tambahBarang.push(tmpSocialMedia)
-            }
-            $('.row-tambah-barang').html(rowSocialMedia(tambahBarang))
+            });
+            console.log(tambahBarang);
+            let newRow = rowTambahBarang(tambahBarang[newId - 1]);
+            $('.form-container').append(newRow);
         })
 
-    function rowSocialMedia(socialMedia) {
-            let row = ''
-            if(socialMedia.length > 0) {
-                socialMedia.map((value,index) => {
-                    row += `
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="no_lot_barang_${index+1}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${index+1}">
-                                </div>
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="uraian_barang" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${index+1}">
-                                </div>
+        $(document).on('click', '.hapus-barang', function(){
+            let id = $(this).data('id');
+            tambahBarang.splice(parseInt(id) - 1, 1);
+            $(this).parent('.row-tambah-barang').remove();
+        });
+
+        function rowTambahBarang(value) {
+            return `
+                    <div class="row-tambah-barang">
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="no_lot_barang_${value.id}" name="no_lot_barang[]" class="form-control input-no-lot" value="${value.no_lot_barang ? value.no_lot_barang : ''}" data-id="${value.id}">
                             </div>
-
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="uang_jaminan_${index+1}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${index+1}">
-                                </div>
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="nilai_limit" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${index+1}">
-                                </div>
+                            <div class="col-md-6">
+                                <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="uraian_barang_${value.id}" name="uraian_barang[]" class="form-control input-uraian" value="${value.uraian_barang ? value.uraian_barang : ''}" data-id="${value.id}">
                             </div>
+                        </div>
 
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="nama_pembeli_${index+1}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${index+1}">
-                                </div>
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="alamat_pembeli" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${index+1}">
-                                </div>
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
+                                <input type="text" id="uang_jaminan_${value.id}" name="uang_jaminan[]" class="form-control input-uang-jaminan" value="${value.uang_jaminan ? value.uang_jaminan : ''}" data-id="${value.id}">
                             </div>
-
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="no_ktp_${index+1}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${index+1}">
-                                </div>
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="harga_lelang" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${index+1}">
-                                </div>
+                            <div class="col-md-6">
+                                <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
+                                <input type="text" id="nilai_limit_${value.id}" name="nilai_limit[]" class="form-control input-nilai-limit" value="${value.nilai_limit ? value.nilai_limit : ''}" data-id="${value.id}">
                             </div>
+                        </div>
 
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="bea_penjual_${index+1}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${index+1}">
-                                </div>
-                                <div class="col-md-6 ${index > 0 ? 'mt-4' : ''}">
-                                    <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                                    <input type="text" id="bea_pembeli_${index+1}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${index+1}">
-                                    <br>
-                                    ${
-                                socialMedia.length > 1 ? ` <button type="button" class="btn btn-sm btn-danger btn-delete-social-media ml-3 shadow" data-id="${index+1}">
-                                    Hapus
-                                </button>` : ''
-                            }
-                                </div>
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="nama_pembeli_${value.id}" name="nama_pembeli[]" class="form-control input-nama-pembeli" value="${value.nama_pembeli ? value.nama_pembeli : ''}" data-id="${value.id}"}">
                             </div>
-
-                    `
-                })
-            }else {
-                row = `
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">No Lot Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_lot_barang_1" name="no_lot_barang[]" class="form-control input-no-lot" data-id="1">
-
+                            <div class="col-md-6">
+                                <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="alamat_pembeli_${value.id}" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" value="${value.alamat_pembeli ? value.alamat_pembeli : ''}" data-id="${value.id}">
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Uraian Barang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uraian_barang_1" name="uraian_barang[]" class="form-control input-uraian" data-id="1">
 
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">No. KTP <sup class="sup-required">*</sup></label>
+                                <input type="text" id="no_ktp_${value.id}" name="no_ktp[]" class="form-control input-no-ktp" value="${value.no_ktp ? value.no_ktp : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
+                                <input type="text" id="harga_lelang_${value.id}" name="harga_lelang[]" class="form-control input-harga-lelang" value="${value.harga_lelang ? value.harga_lelang : ''}" data-id="${value.id}">
+                            </div>
                         </div>
+
+                        <div class="form-group row mt-4">
+                            <div class="col-md-6">
+                                <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
+                                <input type="text" id="bea_penjual_${value.id}" name="bea_penjual[]" class="form-control input-bea-penjual" value="${value.bea_penjual ? value.bea_penjual : ''}" data-id="${value.id}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
+                                <input type="text" id="bea_pembeli_${value.id}" name="bea_pembeli[]" class="form-control input-bea-pembeli" value="${value.bea_pembeli ? value.bea_pembeli : ''}" data-id="${value.id}">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger hapus-barang" data-id="${value.id}">Hapus</button>
+                        <hr class="mt-5 border-1 border-dark">
                     </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Uang Jaminan <sup class="sup-required">*</sup></label>
-                            <input type="text" id="uang_jaminan_1" name="uang_jaminan[]" class="form-control input-uang-jaminan" data-id="1">
-
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Nilai Limit <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nilai_limit_1" name="nilai_limit[]" class="form-control input-nilai-limit" data-id="1">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Nama Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="nama_pembeli_1" name="nama_pembeli[]" class="form-control input-nama-pembeli" data-id="1">
-
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Alamat Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="alamat_pembeli_1" name="alamat_pembeli[]" class="form-control input-alamat-pembeli" data-id="1">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">No. KTP <sup class="sup-required">*</sup></label>
-                            <input type="text" id="no_ktp_1" name="no_ktp[]" class="form-control input-no-ktp" data-id="1">
-
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Harga Lelang <sup class="sup-required">*</sup></label>
-                            <input type="text" id="harga_lelang_1" name="harga_lelang[]" class="form-control input-harga-lelang" data-id="1">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-4">
-                        <div class="col-md-6">
-                            <label for="">Bea Lelang Penjual <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_penjual_1" name="bea_penjual[]" class="form-control input-bea-penjual" data-id="1">
-
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Bea Lelang Pembeli <sup class="sup-required">*</sup></label>
-                            <input type="text" id="bea_pembeli_1" name="bea_pembeli[]" class="form-control input-bea-pembeli" data-id="1">
-
-                        </div>
-                    </div>
-                `
+                `;
             }
-            return row
-        }
-    })
+    });
 </script>
 <script>
     $('document').ready(function(){
@@ -695,7 +647,7 @@
                     console.log(xhr.responseText);
                 }
             })
-        })  
+        })
     })
 </script>
 @endsection
