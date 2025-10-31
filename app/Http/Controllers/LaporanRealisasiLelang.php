@@ -18,14 +18,14 @@ class LaporanRealisasiLelang extends Controller
     {
         if(request()->ajax()){
             $data = RisalahLelang::with('barang')->get();
-            
+
             if (!empty($request->search['value'])) {
                 $searchValue = $request->search['value'];
                 $data = $data->filter(function($item) use ($searchValue) {
                     return date('Y', strtotime($item->tgl_register)) == $searchValue;
                 });
             }
-            
+
             $data = $data->groupBy(function($item){
                 return Carbon::parse($item->tgl_register)->format('Y');
             });

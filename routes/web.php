@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::post('/manage/logout', [LoginController::class, 'logout'])->name('manage.logout');
 
-    Route::group(['middleware' => ['can:pejabat_lelang'], 'namespace' => 'pejabat_lelang' ,'prefix' => 'pejabat_lelang'], function(){
+    Route::group(['namespace' => 'pejabat_lelang' ,'prefix' => 'pejabat_lelang'], function(){
         Route::get('/', [PejabatLelangController::class, 'index'])->name('pejabat_lelang.index');
         Route::get('/create', [PejabatLelangController::class, 'create'])->name('pejabat_lelang.create');
         Route::post('/store', [PejabatLelangController::class, 'store'])->name('pejabat_lelang.store');
@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [PejabatLelangController::class, 'destroy'])->name('pejabat_lelang.destroy');
     });
 
-    Route::group(['middleware' => ['can:kategori_pemohon'], 'namespace' => 'kategori_pemohon', 'prefix' => 'kategori_pemohon'], function(){
+    Route::group(['namespace' => 'kategori_pemohon', 'prefix' => 'kategori_pemohon'], function(){
         Route::get('/', [KategoriPemohonController::class, 'index'])->name('kategori_pemohon.index');
         Route::get('/create', [KategoriPemohonController::class, 'create'])->name('kategori_pemohon.create');
         Route::post('/store', [KategoriPemohonController::class, 'store'])->name('kategori_pemohon.store');
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [KategoriPemohonController::class, 'destroy'])->name('kategori_pemohon.destroy');
     });
 
-    Route::group(['middleware' => ['can:jenis_lelang'], 'namespace' => 'jenis_lelang', 'prefix' => 'jenis_lelang'], function(){
+    Route::group(['namespace' => 'jenis_lelang', 'prefix' => 'jenis_lelang'], function(){
         Route::get('/', [JenisLelangController::class, 'index'])->name('jenis_lelang.index');
         Route::get('/create', [JenisLelangController::class, 'create'])->name('jenis_lelang.create');
         Route::post('/store', [JenisLelangController::class, 'store'])->name('jenis_lelang.store');
@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [JenisLelangController::class, 'destroy'])->name('jenis_lelang.destroy');
     });
 
-    Route::group(['middleware' => ['can:risalah_lelang'], 'namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang', 'as' => 'risalah_lelang.'], function(){
+    Route::group(['namespace' => 'risalah_lelang', 'prefix' => 'risalah_lelang', 'as' => 'risalah_lelang.'], function(){
         Route::get('/', [RisalahLelangController::class, 'index'])->name('index');
         Route::get('add', [RisalahLelangController::class, 'add'])->name('add');
         Route::post('/create', [RisalahLelangController::class, 'create'])->name('create');
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::post('getBeaLelang', [RisalahLelangController::class, 'getBeaLelang'])->name('getBeaLelang');
     });
 
-    Route::group(['middleware' => ['can:rak_gudang'], 'namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){
+    Route::group(['namespace' => 'rak_gudang', 'prefix' => 'rak_gudang'], function(){
         Route::get('/', [RakGudangController::class, 'index'])->name('rak_gudang.index');
         Route::get('/create', [RakGudangController::class, 'create'])->name('rak_gudang.create');
         Route::post('/store', [RakGudangController::class, 'store'])->name('rak_gudang.store');
@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [RakGudangController::class, 'destroy'])->name('rak_gudang.destroy');
     });
 
-    Route::group(['middleware' => ['can:rak_detail'], 'namespace' => 'rak_detail', 'prefix' => 'rak_detail'], function(){
+    Route::group(['namespace' => 'rak_detail', 'prefix' => 'rak_detail'], function(){
         Route::get('/', [RakGudangDetailController::class, 'index'])->name('rak_detail.index');
         Route::get('/create', [RakGudangDetailController::class, 'create'])->name('rak_detail.create');
         Route::post('/store', [RakGudangDetailController::class, 'store'])->name('rak_detail.store');
@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('destroy', [RakGudangDetailController::class, 'destroy'])->name('rak_detail.destroy');
     });
 
-    Route::group(['middleware' => ['can:user'], 'namespace' => 'user' ,'prefix' => 'user'], function () {
+    Route::group(['namespace' => 'user' ,'prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('add', [UserController::class, 'add'])->name('user.add');
         Route::post('store', [UserController::class, 'store'])->name('user.store');
@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::delete('delete', [UserController::class, 'delete'])->name('user.delete');
     });
 
-    Route::group(['middleware' => ['can:role'], 'namespace' => 'role', 'prefix' => 'role', 'as' => 'role.'], function () {
+    Route::group(['namespace' => 'role', 'prefix' => 'role', 'as' => 'role.'], function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
         Route::get('/add', [RoleController::class, 'add'])->name('add');
         Route::post('store', [RoleController::class, 'store'])->name('store');
@@ -140,12 +140,14 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::get('/', [FormatKutipanController::class, 'index'])->name('index');
         Route::get('add/{id}', [FormatKutipanController::class, 'add'])->name('add');
         Route::post('kutipan/{id}', [FormatKutipanController::class, 'kutipanPdf'])->name('kutipan');
+        Route::get('send/email/{id}', [FormatKutipanController::class, 'sendEmail'])->name('send.email');
     });
 
     Route::group(['namespace' => 'kuitansi', 'prefix' => 'kuitansi', 'as' => 'kuitansi.'], function () {
         Route::get('/', [FormatKuitansiController::class, 'index'])->name('index');
         Route::get('add/{id}', [FormatKuitansiController::class, 'add'])->name('add');
         Route::post('kuitansi/{id}', [FormatKuitansiController::class, 'kuitansiPdf'])->name('kuitansi');
+        Route::get('send/email/{id}', [FormatKuitansiController::class, 'sendEmail'])->name('send.email');
     });
 
     Route::group(['namespace' => 'bea_lelang', 'prefix' => 'bea_lelang', 'as' => 'bea_lelang.'], function(){
@@ -156,5 +158,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator','namespace' =
         Route::post('update/{id}', [BeaLelangController::class, 'update'])->name('update');
         Route::delete('destroy', [BeaLelangController::class, 'destroy'])->name('destroy');
     });
+
+    // Route::get('/send-email', [FormatKuitansiController::class, 'sendEmail']);
 
 });

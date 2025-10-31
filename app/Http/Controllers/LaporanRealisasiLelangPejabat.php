@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PejabatLelang;
 use App\Models\RisalahLelang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Yajra\DataTables\Facades\DataTables;
@@ -55,8 +56,9 @@ class LaporanRealisasiLelangPejabat extends Controller
             ->addColumn('produktivitas_lelang', function($row){
                 $rlLaku = RisalahLelang::where('status_lelang', 1)->where('pejabat_lelang_id', $row->id)->get();
                 $rlTap = RisalahLelang::where('status_lelang', 2)->where('pejabat_lelang_id', $row->id)->get();
-                $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
-                return $pro_lelang . '%';
+                $total = count($rlLaku) + count($rlTap);
+                $pro_lelang = $total > 0 ? (count($rlLaku) / $total) * 100 : 0;
+                return number_format($pro_lelang, 2) . '%';
             })
             ->rawColumns(['nama','realisasi_pokok_lelang','realisasi_pnbp_lelang','produktivitas_lelang'])
             ->make(true);
@@ -128,11 +130,12 @@ class LaporanRealisasiLelangPejabat extends Controller
 
             $sheet->setCellValue('D' . $row, number_format($nominal, 0, ',', '.'))->getStyle('D' . $row)->getAlignment()->setHorizontal('center');
 
-            $rlLaku = RisalahLelang::where('st_lelang', 1)->where('pejabat_lelang_id', $value->id)->get();
-            $rlTap = RisalahLelang::where('st_lelang', 2)->where('pejabat_lelang_id', $value->id)->get();
-            $pro_lelang = (count($rlLaku) / (count($rlLaku) + count($rlTap))) * 100;
+            $rlLaku = RisalahLelang::where('status_lelang', 1)->where('pejabat_lelang_id', $value->id)->get();
+            $rlTap = RisalahLelang::where('status_lelang', 2)->where('pejabat_lelang_id', $value->id)->get();
+            $total = count($rlLaku) + count($rlTap);
+            $pro_lelang = $total > 0 ? (count($rlLaku) / $total) * 100 : 0;
 
-            $sheet->setCellValue('E' . $row, $pro_lelang . '%')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('E' . $row, number_format($pro_lelang, 2) . '%')->getStyle('E' . $row)->getAlignment()->setHorizontal('center');
 
             $sheet->getStyle('A' . $row)->applyFromArray($setStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($setStyle);
